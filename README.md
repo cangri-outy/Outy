@@ -2,46 +2,52 @@
 
 Outy is an Android application designed for the Mitsubishi Outlander PHEV.
 
-## 📥 Download
+Monitor vehicle information, access diagnostic features and explore data from your vehicle using a compatible Bluetooth OBD-II adapter.
 
-**[Download the latest Outy APK](https://github.com/camionagiu2022-bit/Outy/releases/latest)**
+## 📥 Download Outy
 
-Always download the latest version from GitHub Releases.
+**[Download the latest OutyDS APK](https://github.com/cangri-outy/Outy/releases/latest)**
+
+Always download the latest version from the official OutyDS GitHub Releases page.
 
 ## 📱 Installation
 
-1. Open the latest release using the download link above.
-2. Download the `OutyDS_x.xx.apk` file.
-3. Open the downloaded APK on your Android phone.
-4. If prompted, allow installation from this source.
-5. Follow Android's installation instructions.
+1. Open the [latest release page](https://github.com/cangri-outy/Outy/releases/latest).
+2. Find the **Assets** section.
+3. Download the `OutyDS_x.xx.apk` file.
+4. Open the downloaded APK on your Android phone.
+5. If Android asks, allow installation from this source.
+6. Follow the Android installation instructions.
+7. Open OutyDS.
+
+For detailed instructions, visit the [Installation Wiki](https://github.com/cangri-outy/Outy/wiki/Installation).
 
 ## 🔄 Updating Outy
 
-When a new version is released:
+OutyDS supports an integrated update checker that connects to GitHub.
 
-1. Open the [Latest Releases](https://github.com/camionagiu2022-bit/Outy/releases/latest) page.
-2. Download the latest APK.
-3. Open the APK and confirm the update.
+To check for updates:
 
-**Important:** Install the update over your existing Outy installation. Do not uninstall the previous version.
+1. Open OutyDS.
+2. Navigate to **Settings → Updates**.
+3. Configure the repository as:
 
-Future versions may include automatic update checking directly inside Outy.
+   `cangri-outy/Outy`
 
-## 🔐 Application compatibility
+4. Enable update checking at startup, if available.
+5. Tap **Check now** to check manually.
 
-Outy updates are signed using the original application signing certificate.
+When a newer version is available, follow the update instructions displayed by the application.
 
-To update an existing installation, the APK must retain the same application package name and signing certificate, and have a compatible version code.
+Android requires user approval to install APK updates. OutyDS cannot silently install updates without special system privileges.
 
-## ⚠️ Disclaimer
+**Important:** Install updates over your existing OutyDS installation. Do not uninstall the previous version.
 
-Outy is provided as-is. Use the application and vehicle diagnostic features responsibly.
+For more information, see the [Automatic Updates Wiki](https://github.com/cangri-outy/Outy/wiki/Automatic-Updates).
 
-Always follow the vehicle manufacturer's safety recommendations.
+## 🔐 Application Compatibility
 
-## 📦 Releases
+OutyDS updates must meet the following requirements:
 
-All official APK releases are available here:
-
-https://github.com/camionagiu2022-bit/Outy/releases
+- Retain the same application package name.
+- Be signed with the original application signing certificate.
