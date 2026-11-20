@@ -1,0 +1,74 @@
+
+name: Daily APK Download Statistics
+
+on:
+  schedule:
+    - cron: "15 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect release downloads
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          mkdir -p data
+          python3 - <<'PY'
+          import csv, json, os, urllib.request
+          from datetime import datetime, timezone
+
+          repo = os.environ["REPO"]
+          token = os.environ["GITHUB_TOKEN"]
+          date = datetime.now(timezone.utc).date().isoformat()
+          path = "data/downloads.csv"
+
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/releases?per_page=100",
+              headers={
+                  "Authorization": f"Bearer {token}",
+                  "Accept": "application/vnd.github+json"
+              }
+          )
+          with urllib.request.urlopen(req) as response:
+              releases = json.load(response)
+
+          fields = ["date_utc", "release", "asset", "downloads"]
+          rows = {}
+          if os.path.exists(path):
+              with open(path, newline="") as f:
+                  for row in csv.DictReader(f):
+                      rows[(row["date_utc"], row["release"], row["asset"])] = row
+
+          for release in releases:
+              for asset in release.get("assets", []):
+                  key = (date, release["tag_name"], asset["name"])
+                  rows[key] = dict(zip(fields, [
+                      date, release["tag_name"], asset["name"],
+                      asset["download_count"]
+                  ]))
+
+          with open(path, "w", newline="") as f:
+              writer = csv.DictWriter(f, fieldnames=fields)
+              writer.writeheader()
+              writer.writerows(sorted(rows.values(), key=lambda r: (
+                  r["date_utc"], r["release"], r["asset"]
+              )))
+          PY
+
+      - name: Save history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/downloads.csv
+          git diff --cached --quiet || (
+            git commit -m "Update APK download statistics" &&
+            git push
+          )
