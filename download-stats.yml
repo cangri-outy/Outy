@@ -1,5 +1,5 @@
 
-name: .github/workflows/download-stats.yml
+name: Daily APK Download Statistics
 
 on:
   schedule:
