@@ -1,0 +1,314 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10141d">
+<title>Outy · Download Statistics</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#0b0f16;
+  --panel:#151c27;
+  --panel2:#1b2533;
+  --text:#edf3fb;
+  --muted:#9ba9ba;
+  --line:#293647;
+  --accent:#65b5ff;
+  --green:#5ed6a0;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top,#18263a 0,#0b0f16 55%);
+  color:var(--text);
+  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+main {max-width:1050px;margin:auto;padding:28px 18px 50px}
+header {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:16px;margin-bottom:24px
+}
+h1 {font-size:clamp(27px,5vw,40px);line-height:1.1;margin:0}
+h2 {font-size:18px;margin:0 0 14px}
+.sub {color:var(--muted);margin:8px 0 0}
+.pill {
+  border:1px solid var(--line);border-radius:99px;
+  padding:6px 11px;color:var(--muted);
+  font-size:12px;white-space:nowrap
+}
+.grid {
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;margin:22px 0
+}
+.card {
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:16px;
+  padding:18px;min-width:0;box-shadow:0 10px 30px #0002
+}
+.metric-label {font-size:13px;color:var(--muted)}
+.metric {
+  font-size:clamp(25px,4vw,34px);font-weight:750;
+  letter-spacing:-1px;margin-top:5px;overflow-wrap:anywhere
+}
+.metric-note {font-size:12px;color:var(--muted);margin-top:3px}
+.panel {margin-top:16px}
+.chart-wrap {width:100%;overflow:hidden}
+.chart {width:100%;height:auto;display:block;min-height:170px}
+.legend {
+  display:flex;gap:18px;flex-wrap:wrap;
+  color:var(--muted);font-size:12px;margin-top:8px
+}
+table {width:100%;border-collapse:collapse;font-size:14px}
+th,td {text-align:left;padding:11px 8px;border-bottom:1px solid var(--line)}
+th {color:var(--muted);font-weight:600}
+td:last-child,th:last-child {text-align:right;font-variant-numeric:tabular-nums}
+.empty {color:var(--muted);padding:16px 0}
+.foot {
+  color:var(--muted);font-size:12px;margin-top:20px;
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
+}
+a {color:var(--accent);text-decoration:none}
+a:hover {text-decoration:underline}
+.refresh {
+  background:#23364c;border:1px solid #35516e;
+  color:var(--text);border-radius:10px;padding:9px 13px;
+  font:inherit;cursor:pointer
+}
+.error {color:#ffb4a9}
+@media(max-width:720px) {
+  main {padding:22px 13px 36px}
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card {padding:14px}
+  header {align-items:flex-start}
+  .pill {font-size:11px}
+}
+@media(max-width:420px) {
+  .pill {display:none}
+  th,td {font-size:12px;padding:9px 5px}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>Download statistics</h1>
+    <p class="sub">Outy · Mitsubishi Outlander PHEV</p>
+  </div>
+  <span class="pill" id="updated">Loading data…</span>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <div class="metric-label">Latest total downloads</div>
+    <div class="metric" id="total">—</div>
+    <div class="metric-note">Latest count across tracked APK assets</div>
+  </section>
+  <section class="card">
+    <div class="metric-label">Outy downloads</div>
+    <div class="metric" id="outy">—</div>
+    <div class="metric-note">Latest Outy APK totals</div>
+  </section>
+  <section class="card">
+    <div class="metric-label">SID Remote downloads</div>
+    <div class="metric" id="sid">—</div>
+    <div class="metric-note">If SID Remote APKs are released in this repository</div>
+  </section>
+  <section class="card">
+    <div class="metric-label">Latest daily increase</div>
+    <div class="metric" id="daily">—</div>
+    <div class="metric-note" id="daily-note">Needs two daily snapshots</div>
+  </section>
+</div>
+
+<section class="card panel">
+  <h2>Daily download growth</h2>
+  <div class="chart-wrap" id="chart">
+    <div class="empty">Loading history…</div>
+  </div>
+  <div class="legend">Daily increase calculated from consecutive cumulative snapshots</div>
+</section>
+
+<section class="card panel">
+  <h2>Latest downloads by release</h2>
+  <div id="releases" class="empty">Loading…</div>
+</section>
+
+<section class="card panel">
+  <h2>Tracked APK assets</h2>
+  <div id="assets" class="empty">Loading…</div>
+</section>
+
+<div class="foot">
+  <span>Source: GitHub Actions · data/downloads.csv</span>
+  <span>
+    <a href="https://github.com/cangri-outy/Outy/releases" target="_blank" rel="noopener">View releases</a>
+    ·
+    <a href="https://github.com/cangri-outy/Outy" target="_blank" rel="noopener">Repository</a>
+    ·
+    <button class="refresh" id="reload">Refresh</button>
+  </span>
+</div>
+</main>
+
+<script>
+const CSV_URL='./data/downloads.csv';
+
+const fmt=n=>Number(n||0).toLocaleString();
+
+function parseCSV(text) {
+  const lines=text.trim().split(/\r?\n/);
+  if(lines.length<2)return[];
+  const head=lines.shift().split(',').map(x=>x.trim());
+  return lines.filter(Boolean).map(line=>{
+    const c=line.split(',');
+    const o={};
+    head.forEach((h,i)=>o[h]=(c[i]||'').trim());
+    o.downloads=Number(o.downloads)||0;
+    return o;
+  });
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function drawChart(days) {
+  const el=document.getElementById('chart');
+
+  if(!days.length) {
+    el.innerHTML='<div class="empty">No daily history yet. A second daily snapshot is needed to calculate growth.</div>';
+    return;
+  }
+
+  const W=900,H=245,L=48,R=18,T=15,B=38;
+  const max=Math.max(1,...days.map(d=>d.count));
+  const x=i=>L+(days.length===1?(W-L-R)/2:i*(W-L-R)/(days.length-1));
+  const y=v=>T+(H-T-B)*(1-v/max);
+  let grid='';
+
+  for(let i=0;i<=4;i++) {
+    const val=max*i/4,yy=y(val);
+    grid+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#293647"/>`;
+    grid+=`<text x="${L-9}" y="${yy+4}" fill="#9ba9ba" font-size="11" text-anchor="end">${Math.round(val)}</text>`;
+  }
+
+  const labels=days.map((d,i)=>{
+    if(days.length>9&&i%Math.ceil(days.length/6)!==0&&i!==days.length-1)return'';
+    return`<text x="${x(i)}" y="${H-12}" fill="#9ba9ba" font-size="11" text-anchor="middle">${d.date.slice(5)}</text>`;
+  }).join('');
+
+  el.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily APK download increase chart">
+    ${grid}
+    <polyline points="${days.map((d,i)=>x(i)+','+y(d.count)).join(' ')}" fill="none" stroke="#65b5ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    ${days.map((d,i)=>`<circle cx="${x(i)}" cy="${y(d.count)}" r="4" fill="#5ed6a0"><title>${d.date}: ${d.count} new downloads</title></circle>`).join('')}
+    ${labels}
+  </svg>`;
+}
+
+async function load() {
+  const updated=document.getElementById('updated');
+
+  try {
+    const res=await fetch(CSV_URL+'?v='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw Error('Could not fetch CSV (HTTP '+res.status+')');
+
+    const rows=parseCSV(await res.text());
+    if(!rows.length)throw Error('CSV has no download records yet.');
+
+    rows.sort((a,b)=>
+      a.date_utc.localeCompare(b.date_utc)||
+      a.release.localeCompare(b.release)||
+      a.asset.localeCompare(b.asset)
+    );
+
+    const latestMap=new Map();
+
+    rows.forEach(r=>{
+      const k=r.release+'|'+r.asset;
+      const old=latestMap.get(k);
+      if(!old||r.date_utc>=old.date_utc)latestMap.set(k,r);
+    });
+
+    const latest=[...latestMap.values()];
+
+    const total=latest.reduce((s,r)=>s+r.downloads,0);
+    const outy=latest.filter(r=>/outy/i.test(r.asset))
+      .reduce((s,r)=>s+r.downloads,0);
+    const sid=latest.filter(r=>/sid/i.test(r.asset))
+      .reduce((s,r)=>s+r.downloads,0);
+
+    document.getElementById('total').textContent=fmt(total);
+    document.getElementById('outy').textContent=fmt(outy);
+    document.getElementById('sid').textContent=fmt(sid);
+
+    const prev=new Map();
+    const dailyMap=new Map();
+
+    rows.forEach(r=>{
+      const k=r.release+'|'+r.asset;
+      const p=prev.get(k);
+
+      if(p&&r.date_utc>p.date_utc) {
+        dailyMap.set(
+          r.date_utc,
+          (dailyMap.get(r.date_utc)||0)+Math.max(0,r.downloads-p.downloads)
+        );
+      }
+      prev.set(k,r);
+    });
+
+    const days=[...dailyMap]
+      .sort((a,b)=>a[0].localeCompare(b[0]))
+      .map(([date,count])=>({date,count}));
+
+    const last=days.at(-1);
+
+    document.getElementById('daily').textContent=last?fmt(last.count):'—';
+    document.getElementById('daily-note').textContent=
+      last?'Increase recorded on '+last.date:
+      'A second snapshot is needed to calculate growth';
+
+    drawChart(days);
+
+    const byRelease=new Map();
+
+    latest.forEach(r=>{
+      byRelease.set(r.release,(byRelease.get(r.release)||0)+r.downloads);
+    });
+
+    document.getElementById('releases').innerHTML=byRelease.size
+      ?'<table><thead><tr><th>Release</th><th>Latest downloads</th></tr></thead><tbody>'+
+       [...byRelease].sort((a,b)=>b[0].localeCompare(a[0]))
+       .map(([v,n])=>'<tr><td>'+esc(v)+'</td><td>'+fmt(n)+'</td></tr>').join('')+
+       '</tbody></table>'
+      :'<div class="empty">No release data.</div>';
+
+    document.getElementById('assets').innerHTML=
+      '<table><thead><tr><th>APK asset</th><th>Release</th><th>Downloads</th></tr></thead><tbody>'+
+      latest.sort((a,b)=>a.asset.localeCompare(b.asset))
+      .map(r=>'<tr><td>'+esc(r.asset)+'</td><td>'+esc(r.release)+'</td><td>'+fmt(r.downloads)+'</td></tr>').join('')+
+      '</tbody></table>';
+
+    updated.textContent='Data through '+
+      rows.reduce((m,r)=>r.date_utc>m?r.date_utc:m,'');
+
+  } catch(e) {
+    updated.textContent='Could not load data';
+    document.getElementById('chart').innerHTML=
+      '<div class="empty error">'+esc(e.message)+'</div>';
+    document.getElementById('releases').textContent=
+      'Check that data/downloads.csv is publicly readable.';
+  }
+}
+
+document.getElementById('reload').addEventListener('click',load);
+load();
+</script>
+</body>
+</html>
