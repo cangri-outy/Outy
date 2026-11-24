@@ -51,3 +51,7 @@ OutyDS updates must meet the following requirements:
 
 - Retain the same application package name.
 - Be signed with the original application signing certificate.
+
+## 📄 License and source
+
+OutyDS is free software under the **GNU GPL v3** (see `LICENSE`). The complete source is in `app/` (apktool project); build instructions are in `BUILDING.md`. Third-party notices are in `NOTICE.md`.

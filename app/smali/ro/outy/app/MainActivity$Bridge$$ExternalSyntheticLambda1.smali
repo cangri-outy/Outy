@@ -1,0 +1,46 @@
+.class public final synthetic Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;
+.super Ljava/lang/Object;
+.source "D8$$SyntheticClass"
+
+# interfaces
+.implements Ljava/lang/Runnable;
+
+
+# instance fields
+.field public final synthetic f$0:Lro/outy/app/MainActivity$Bridge;
+
+.field public final synthetic f$1:Ljava/io/OutputStream;
+
+.field public final synthetic f$2:Ljava/lang/String;
+
+
+# direct methods
+.method public synthetic constructor <init>(Lro/outy/app/MainActivity$Bridge;Ljava/io/OutputStream;Ljava/lang/String;)V
+    .locals 0
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    iput-object p1, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$0:Lro/outy/app/MainActivity$Bridge;
+
+    iput-object p2, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$1:Ljava/io/OutputStream;
+
+    iput-object p3, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$2:Ljava/lang/String;
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public final run()V
+    .locals 3
+
+    iget-object v0, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$0:Lro/outy/app/MainActivity$Bridge;
+
+    iget-object v1, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$1:Ljava/io/OutputStream;
+
+    iget-object v2, p0, Lro/outy/app/MainActivity$Bridge$$ExternalSyntheticLambda1;->f$2:Ljava/lang/String;
+
+    invoke-virtual {v0, v1, v2}, Lro/outy/app/MainActivity$Bridge;->lambda$write$2$ro-outy-app-MainActivity$Bridge(Ljava/io/OutputStream;Ljava/lang/String;)V
+
+    return-void
+.end method
