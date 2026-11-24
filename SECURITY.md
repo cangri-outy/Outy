@@ -14,7 +14,7 @@ Only the latest published release is considered. Latest published release at the
 
 ## Vehicle communication scope
 - The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a speed check.
-- The Remote tab sends commands to the car over its own WiFi: climate, lights and charging-related functions.
+- The Remote tab sends commands to the car over its own WiFi: climate control (including cancelling pre-heating), headlights and parking lights, and cancelling the charge timer.
 - **Scheduled pre-heating can run automatically.** Once the user has configured and enabled it, the app starts the climate command at the planned time without asking for a further confirmation.
 
 ## Updates and signing
@@ -23,12 +23,14 @@ Only the latest published release is considered. Latest published release at the
 - Verify downloads with the `SHA256SUMS` file attached to a release, when one is present.
 
 ## What has been reviewed
+These points describe the **project files (version 1.96, not yet released)**. The published v.1.95 does not include them.
+
 - The WebView navigates only within the bundled pages, and the native bridge only opens `https://` links and only downloads updates from `https://github.com/`.
 - Messages between the app's pages are checked for the expected source frame.
 - Some dynamic values shown in the interface are escaped. **No blanket guarantee is made** that every dynamic value in every code path is escaped.
 
 ## Known limitations
 - The car's WiFi password is stored unencrypted in the app's private storage (backup disabled).
-- The WebView has file access enabled for bundled assets.
+- The WebView has access to the app's own bundled pages only (file access is disabled), but it exposes native bridge objects to those pages, so a flaw that lets foreign content run in them would reach the bridge.
 - The Remote link to the car uses the car's own protocol on its private WiFi.
 - The repository is an Apktool project with decompiled Smali and some minified JavaScript (see [SOURCE_STATUS.md](SOURCE_STATUS.md)), which makes independent review harder.

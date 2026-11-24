@@ -9,7 +9,7 @@ OutyDS is licensed under GPL-3.0 (see `LICENSE`). It includes or uses the follow
 | Open-Meteo — https://open-meteo.com | Optional online weather (off by default) | CC BY 4.0 (data) | Only approximate coordinates are sent, and only when the user turns online weather on. |
 | Apktool 2.10.0 — https://github.com/iBotPeaches/Apktool | Build tool, not distributed | Apache-2.0 | Version and SHA-256 are pinned in `build.sh`. |
 | uber-apk-signer 1.3.0 — https://github.com/patrickfav/uber-apk-signer | Build tool, not distributed | Apache-2.0 | Version and SHA-256 are pinned in `build.sh`. |
-| Android platform / WebView | Runtime | Apache-2.0 / Chromium | Provided by the device. |
+| Android platform / WebView | Runtime | Android Open Source Project (Apache-2.0); WebView is based on Chromium | Provided by the device, not distributed with OutyDS. |
 
 ## Scope of the phev2mqtt-derived code
 - `app/assets/phev-engine.js` is the file identified as the phev2mqtt-derived protocol implementation.
@@ -20,14 +20,14 @@ The original Java/Kotlin source tree is **not available** in this repository. Th
 
 ## Icons and resources
 
-- Launcher icon (`app/res/mipmap-*`, `app/res/drawable/ic_launcher_*.xml`): drawn for this project.
-- UI icons are inline SVG paths in `app/assets/index.html` and `style.css` (data URIs). No icon font or icon library is bundled. They were written for this project with AI assistance; their shapes resemble common icon sets and have not been compared against any specific library.
+- Launcher icon (`app/res/mipmap-*`, `app/res/drawable/ic_launcher_*.xml`): simple vector shapes and PNG renderings; their authorship is not documented in this repository.
+- UI icons are inline SVG paths in `app/assets/index.html` and `style.css` (data URIs). No icon font or icon library is bundled. Their origin is not documented here; no comparison against any specific icon library has been made.
 - No web fonts, no JavaScript libraries (no jQuery, chart or UI frameworks) and no native `.so` libraries are bundled.
 
 ## Own and AI-assisted work
 
-- All other code was written by the project author with AI assistance (Claude). Parts of the Remote logic follow behaviour first developed in the author's own SIDMonitor experiments (not published separately).
-- Images in `app/assets/` (`car_top.jpg`, `car3d.jpg`, `car-photo.jpg`, `engine_on.png`, `engine_on2.png`) were generated with AI (Gemini) by the author.
+- According to the maintainer, all other code was written with AI assistance (Claude). According to the maintainer, parts of the Remote logic follow behaviour first developed in the maintainer's own SIDMonitor experiments (not published separately); this has not been independently verified.
+- Images in `app/assets/` (`car_top.jpg`, `car3d.jpg`, `car-photo.jpg`, `engine_on.png`, `engine_on2.png`) were, according to the maintainer, generated with AI (Gemini). The rights status of such images has not been legally assessed.
 
 ## What is not included
 
