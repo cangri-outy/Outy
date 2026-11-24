@@ -171,6 +171,10 @@ function parseCSV(text) {
   });
 }
 
+function dayGap(a,b) {
+  return Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/864e5);
+}
+
 function esc(s) {
   return String(s).replace(/[&<>"']/g,c=>({
     '&':'&amp;','<':'&lt;','>':'&gt;',
@@ -218,7 +222,7 @@ async function load() {
     const res=await fetch(CSV_URL+'?v='+Date.now(),{cache:'no-store'});
     if(!res.ok)throw Error('Could not fetch CSV (HTTP '+res.status+')');
 
-    const rows=parseCSV(await res.text());
+    const rows=parseCSV(await res.text()).filter(r=>/\.apk$/i.test(r.asset));
     if(!rows.length)throw Error('CSV has no download records yet.');
 
     rows.sort((a,b)=>
@@ -254,7 +258,9 @@ async function load() {
       const k=r.release+'|'+r.asset;
       const p=prev.get(k);
 
-      if(p&&r.date_utc>p.date_utc) {
+      // growth is only computed between snapshots of consecutive calendar days;
+      // a missing day is not shown as daily growth
+      if(p&&dayGap(p.date_utc,r.date_utc)===1) {
         dailyMap.set(
           r.date_utc,
           (dailyMap.get(r.date_utc)||0)+Math.max(0,r.downloads-p.downloads)

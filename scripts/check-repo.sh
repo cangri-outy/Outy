@@ -34,5 +34,11 @@ grep -qi 'phev2mqtt' THIRD_PARTY_NOTICES.md && grep -qi 'OBDb' THIRD_PARTY_NOTIC
 # 5. JS syntax and unit tests
 for f in app/assets/*.js; do node --check "$f" || err "syntax error in $f"; done
 node --test tests/*.test.js || err "unit tests failed"
+if command -v javac >/dev/null 2>&1; then
+  d=$(mktemp -d)
+  javac -d "$d" tests/native/RxBufferTest.java && java -cp "$d" RxBufferTest || err "native framing reference test failed"
+else
+  echo "javac not found: native framing reference test skipped"
+fi
 
 [ "$fail" = 0 ] && echo "All repository checks passed." || { echo "Checks failed."; exit 1; }

@@ -51,6 +51,9 @@ jobs:
 
           for release in releases:
               for asset in release.get("assets", []):
+                  # count APK downloads only (not SHA256SUMS or other assets)
+                  if not asset["name"].lower().endswith(".apk"):
+                      continue
                   key = (date, release["tag_name"], asset["name"])
                   rows[key] = dict(zip(fields, [
                       date, release["tag_name"], asset["name"],

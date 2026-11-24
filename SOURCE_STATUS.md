@@ -15,4 +15,6 @@ These files are minified and have no readable original in this repository: `app/
 ## Unresolved GPL question
 Whether this repository satisfies the GPL-3.0 Corresponding Source requirements (preferred form for making modifications, given the missing Java/Kotlin source and the minified JavaScript) is **unresolved**. It has not been legally established.
 
+Tag status (checked 2026-11-24 through the GitHub API): the tag `v.1.95` points to commit `f50b348`, whose tree contains only `README.md` and `readme.md`. The published `OutyDS_1.95.apk` therefore has **no corresponding application source at its tag**. Source for 1.96 is on `main`; a `v.1.96` tag/release should be created from a commit that contains the exact source of the attached APK. This is an open GPL source-availability gap for v.1.95 that cannot be fixed without changing the tag or publishing the source that matches that APK.
+
 Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.95** (`OutyDS_1.95.apk`). Version 1.96 has not been released yet.

@@ -35,7 +35,7 @@ jobs:
       - name: Check the built APK
         run: |
           cat dist/SHA256SUMS
-          unzip -l dist/OutyDS.apk | grep -E 'classes.dex|AndroidManifest.xml|assets/app.js'
+          unzip -l dist/OutyDS_*.apk | grep -E 'classes.dex|AndroidManifest.xml|assets/app.js'
       - uses: actions/upload-artifact@v4
         with:
           name: ci-test-build-unsigned-by-release-key

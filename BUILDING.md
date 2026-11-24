@@ -24,7 +24,7 @@ The script stops if a checksum does not match. It also stops if the version in `
 ```
 KS=/path/outyds.jks KS_ALIAS=outyds KS_PASS=... ./build.sh
 ```
-Output: `dist/OutyDS.apk`. The script also writes **`dist/SHA256SUMS`** locally (`sha256sum` of the APK). It is generated on your machine and is not stored in the repository.
+Output: `dist/OutyDS_<version>.apk` (e.g. `dist/OutyDS_1.96.apk`). The script also writes **`dist/SHA256SUMS`** locally (`sha256sum` of the APK). It is generated on your machine and is not stored in the repository.
 
 ## Release checksum
 When a release is published, attach `SHA256SUMS` to the **GitHub Release** next to the APK. The file refers to the APK by its file name, so the checksum is only valid if the APK keeps the name it had when the file was generated (rename before generating, or regenerate).
@@ -33,6 +33,7 @@ When a release is published, attach `SHA256SUMS` to the **GitHub Release** next 
 - **Never commit the keystore.**
 - Android only installs an update over an existing installation if the APK has the same package name and is signed with the **same original signing key**.
 - **A newly generated signing key cannot update an existing installation.** Users would have to uninstall first, which deletes the app's data.
+- The signing certificate of the published v.1.95 APK has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95. If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
 - Builds are not bit-for-bit reproducible (signing adds timestamps).
 
 ## In-app updates

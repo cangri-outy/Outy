@@ -227,7 +227,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_0
+    if-nez v1, :cond_0
 
     const/4 v1, 0x1
 

@@ -16,6 +16,8 @@ V2=$(sed -n 's/.*var VERSION = "\([^"]*\)".*/\1/p' app/assets/update.js)
 [ "$V1" = "$V2" ] || { echo "Version mismatch: apktool.yml=$V1 update.js=$V2"; exit 1; }
 java -jar tools/apktool.jar b -o dist/unsigned.apk app
 java -jar tools/uber-apk-signer.jar -a dist/unsigned.apk --ks "$KS" --ksAlias "$KS_ALIAS" --ksPass "$KS_PASS" --ksKeyPass "$KS_PASS" -o dist/signed
-cp dist/signed/unsigned-aligned-signed.apk dist/OutyDS.apk
-(cd dist && sha256sum OutyDS.apk > SHA256SUMS)
-echo "OK -> dist/OutyDS.apk (version $V1), checksum in dist/SHA256SUMS"
+APK="OutyDS_${V1}.apk"
+cp dist/signed/unsigned-aligned-signed.apk "dist/$APK"
+# checksum is generated only after the final release filename is chosen
+(cd dist && sha256sum "$APK" > SHA256SUMS)
+echo "OK -> dist/$APK (version $V1), checksum in dist/SHA256SUMS"

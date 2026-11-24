@@ -270,9 +270,9 @@
     const/4 v3, 0x0
 
     .line 105
-    const/16 v5, 0x200
+    new-instance v5, Lro/outyds/remote/PhevRxBuffer;
 
-    new-array v5, v5, [B
+    invoke-direct {v5}, Lro/outyds/remote/PhevRxBuffer;-><init>()V
 
     .line 106
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -297,20 +297,15 @@
     if-gez v7, :cond_d
 
     .line 108
-    invoke-virtual {v4, v5}, Ljava/io/InputStream;->read([B)I
+    invoke-virtual {v5, v4}, Lro/outyds/remote/PhevRxBuffer;->readMore(Ljava/io/InputStream;)I
 
     move-result v7
 
     .line 109
     if-lez v7, :cond_6
 
-    .line 110
-    invoke-static {v5, v7}, Lro/outyds/remote/PhevBackgroundService;->toIntArray([BI)[I
-
-    move-result-object v7
-
-    .line 111
-    invoke-static {v7}, Lro/outyds/remote/PhevMiniProtocol;->tryDecodeOne([I)Lro/outyds/remote/PhevMiniProtocol$Frame;
+    :cond_drain
+    invoke-virtual {v5}, Lro/outyds/remote/PhevRxBuffer;->next()Lro/outyds/remote/PhevMiniProtocol$Frame;
 
     move-result-object v13
 
@@ -334,11 +329,13 @@
 
     const/16 v15, 0x6e
 
-    if-ne v14, v15, :cond_6
+    if-ne v14, v15, :cond_drain
 
     .line 114
     :cond_7
     iget v3, v13, Lro/outyds/remote/PhevMiniProtocol$Frame;->ack:I
+
+    iget-object v7, v5, Lro/outyds/remote/PhevRxBuffer;->lastRaw:[I
 
     invoke-virtual {v6, v7, v3}, Lro/outyds/remote/PhevMiniProtocol$SecurityKey;->update([II)V
 
@@ -523,7 +520,7 @@
 
     move-object/from16 v3, p0
 
-    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;[BLro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
+    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;Lro/outyds/remote/PhevRxBuffer;Lro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
     :try_end_4
     .catchall {:try_start_4 .. :try_end_4} :catchall_0
 
@@ -585,7 +582,7 @@
 
     move-object/from16 v3, p0
 
-    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;[BLro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
+    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;Lro/outyds/remote/PhevRxBuffer;Lro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
     :try_end_6
     .catchall {:try_start_6 .. :try_end_6} :catchall_0
 
@@ -638,7 +635,7 @@
 
     move-object/from16 v3, p0
 
-    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;[BLro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
+    invoke-direct/range {v3 .. v9}, Lro/outyds/remote/PhevBackgroundService;->waitAck(Ljava/io/InputStream;Lro/outyds/remote/PhevRxBuffer;Lro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
     :try_end_8
     .catchall {:try_start_8 .. :try_end_8} :catchall_0
 
@@ -1505,7 +1502,7 @@
     return-void
 .end method
 
-.method private waitAck(Ljava/io/InputStream;[BLro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
+.method private waitAck(Ljava/io/InputStream;Lro/outyds/remote/PhevRxBuffer;Lro/outyds/remote/PhevMiniProtocol$SecurityKey;IJ)Z
     .locals 7
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -1533,43 +1530,34 @@
 
     if-gez v1, :cond_1
 
-    .line 147
-    invoke-virtual {p1, p2}, Ljava/io/InputStream;->read([B)I
-
-    move-result v1
-
-    .line 148
-    if-lez v1, :cond_0
-
-    .line 149
-    invoke-static {p2, v1}, Lro/outyds/remote/PhevBackgroundService;->toIntArray([BI)[I
+    :cond_wdrain
+    invoke-virtual {p2}, Lro/outyds/remote/PhevRxBuffer;->next()Lro/outyds/remote/PhevMiniProtocol$Frame;
 
     move-result-object v1
 
-    invoke-static {v1}, Lro/outyds/remote/PhevMiniProtocol;->tryDecodeOne([I)Lro/outyds/remote/PhevMiniProtocol$Frame;
-
-    move-result-object v1
-
-    .line 150
-    if-eqz v1, :cond_0
+    if-eqz v1, :cond_wread
 
     iget v4, v1, Lro/outyds/remote/PhevMiniProtocol$Frame;->type:I
 
     const/16 v5, 0x6f
 
-    if-ne v4, v5, :cond_0
+    if-ne v4, v5, :cond_wdrain
 
     iget v4, v1, Lro/outyds/remote/PhevMiniProtocol$Frame;->ack:I
 
-    if-ne v4, v0, :cond_0
+    if-ne v4, v0, :cond_wdrain
 
     iget v1, v1, Lro/outyds/remote/PhevMiniProtocol$Frame;->register:I
 
-    if-ne v1, p4, :cond_0
+    if-ne v1, p4, :cond_wdrain
 
-    .line 152
     :goto_0
     return v0
+
+    :cond_wread
+    invoke-virtual {p2, p1}, Lro/outyds/remote/PhevRxBuffer;->readMore(Ljava/io/InputStream;)I
+
+    goto :cond_0
 
     :cond_1
     const/4 v0, 0x0
