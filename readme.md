@@ -2,7 +2,7 @@
 
 Outy is an Android application designed for the Mitsubishi Outlander PHEV.
 
-Monitor vehicle information, access diagnostic features and explore data from your vehicle using a compatible Bluetooth OBD-II adapter.
+Monitor vehicle information, access diagnostic features and explore data from your vehicle using a compatible Bluetooth OBD-II adapter (the unreleased 1.96 also supports WiFi OBD adapters).
 
 ## 📥 Download Outy
 

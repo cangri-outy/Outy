@@ -13,7 +13,7 @@ Security reports are handled on a **best-effort** basis. There is **no guarantee
 Only the latest published release is considered. Latest published release at the last check: **v.1.95**; the repository files are version 1.96 (not yet released).
 
 ## Vehicle communication scope
-- The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a speed check.
+- The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. Manually typed console commands are filtered to read-only diagnostic services. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a refusal above 5 km/h.
 - The Remote tab sends commands to the car over its own WiFi: climate control (including cancelling pre-heating), headlights and parking lights, and cancelling the charge timer.
 - **Scheduled pre-heating can run automatically.** Once the user has configured and enabled it, the app starts the climate command at the planned time without asking for a further confirmation.
 

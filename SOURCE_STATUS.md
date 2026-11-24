@@ -9,7 +9,7 @@ These files are minified and have no readable original in this repository: `app/
 
 ## Other limits
 - Built APKs are not bit-for-bit reproducible (signing adds timestamps). Use `SHA256SUMS` from the release.
-- Verified only in a browser mock and on the maintainer's own car; other model years are untested.
+- The 1.96 changes (WiFi OBD adapter, new tyre-pressure decoding, charge statistics, regrouped pages) were tested only in a browser mock. Logs from the maintainer's car were used to analyse tyre pressure and connection problems, but no real-car or real-adapter verification of these changes is documented. Other model years are untested.
 - WiFi OBD dongle, tyre-pressure (TPMS) and the Remote tab depend on the car/adapter and may not work on every vehicle.
 
 ## Unresolved GPL question
