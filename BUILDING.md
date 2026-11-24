@@ -20,7 +20,7 @@ Output: `dist/OutyDS.apk`. Never commit the keystore; updates only install over 
 ## Notes
 - Internal storage keys stay `outy.*` for compatibility with existing exports.
 - Credits: OBDb (CC BY-SA 4.0). Unofficial, not affiliated with Mitsubishi.
-- Add a LICENSE of your choice.
+- License: GPL-3.0 (see `LICENSE`); third-party notices in `NOTICE.md`.
 
 ## In-app updates
 OutyDS checks `https://api.github.com/repos/<owner>/<repo>/releases/latest` at start (Settings > Updates; repo is set there, or in `app/assets/update.js` as `DEFAULT_REPO`).
