@@ -5,9 +5,17 @@ set -euo pipefail
 cd "$(dirname "$0")"
 : "${KS:?path to keystore}"; : "${KS_ALIAS:?}"; : "${KS_PASS:?}"
 mkdir -p tools dist
+APKTOOL_SHA256=c0350abbab5314248dfe2ee0c907def4edd14f6faef1f5d372d3d4abd28f0431
+SIGNER_SHA256=e1299fd6fcf4da527dd53735b56127e8ea922a321128123b9c32d619bba1d835
 [ -f tools/apktool.jar ] || curl -sSL -o tools/apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.10.0/apktool_2.10.0.jar
 [ -f tools/uber-apk-signer.jar ] || curl -sSL -o tools/uber-apk-signer.jar https://github.com/patrickfav/uber-apk-signer/releases/download/v1.3.0/uber-apk-signer-1.3.0.jar
+echo "$APKTOOL_SHA256  tools/apktool.jar" | sha256sum -c -
+echo "$SIGNER_SHA256  tools/uber-apk-signer.jar" | sha256sum -c -
+V1=$(sed -n 's/^  versionName: *//p' app/apktool.yml | tr -d "'\" ")
+V2=$(sed -n 's/.*var VERSION = "\([^"]*\)".*/\1/p' app/assets/update.js)
+[ "$V1" = "$V2" ] || { echo "Version mismatch: apktool.yml=$V1 update.js=$V2"; exit 1; }
 java -jar tools/apktool.jar b -o dist/unsigned.apk app
 java -jar tools/uber-apk-signer.jar -a dist/unsigned.apk --ks "$KS" --ksAlias "$KS_ALIAS" --ksPass "$KS_PASS" --ksKeyPass "$KS_PASS" -o dist/signed
 cp dist/signed/unsigned-aligned-signed.apk dist/OutyDS.apk
-echo "OK -> dist/OutyDS.apk"
+(cd dist && sha256sum OutyDS.apk > SHA256SUMS)
+echo "OK -> dist/OutyDS.apk (version $V1), checksum in dist/SHA256SUMS"
