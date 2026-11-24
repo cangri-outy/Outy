@@ -52,9 +52,21 @@ OutyDS updates must meet the following requirements:
 - Retain the same application package name.
 - Be signed with the original application signing certificate.
 
-## 📄 License and source
+## 📄 License, source and version
 
-OutyDS is free software under the **GNU GPL v3** (see `LICENSE`). The complete source is in `app/` (apktool project); build instructions are in `BUILDING.md`. Third-party notices: `THIRD_PARTY_NOTICES.md`. Source status and known limits: `SOURCE_STATUS.md`.
+OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations are voluntary and help support continued development. Support is provided on a best-effort basis, without guaranteed response times, fixes, updates or compatibility.
+
+- **License:** GNU GPL-3.0 (see `LICENSE`).
+- **What the repository contains:** an [Apktool](https://apktool.org) project in `app/`: `AndroidManifest.xml`, `apktool.yml`, decompiled **Smali** files (`app/smali/`), the WebView application files (`app/assets/`) and Android resources (`app/res/`), plus `build.sh`. It does **not** contain an original Java/Kotlin source tree, and some JavaScript files are minified. Details: [SOURCE_STATUS.md](SOURCE_STATUS.md).
+- **GPL Corresponding Source:** whether this repository fully satisfies the GPL Corresponding Source requirements is an **unresolved question**; it has not been legally established.
+- **Third-party components:** [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). **Build instructions:** [BUILDING.md](BUILDING.md).
+- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.95** (`OutyDS_1.95.apk`). Version 1.96 has not been released yet.
+
+## ❤️ Donations and support
+
+- Donations are voluntary and do not unlock features or priority support. See [DONATIONS.md](DONATIONS.md).
+- Support is best effort, with no guaranteed response time. See [SUPPORT.md](SUPPORT.md) and the [FAQ](FAQ.md).
+- Privacy: [PRIVACY.md](PRIVACY.md). Security: [SECURITY.md](SECURITY.md).
 
 ## ⚠️ Disclaimer
 

@@ -14,7 +14,11 @@ No. Outy is an independent community project and is not affiliated with, endorse
 
 Is Outy free?
 
-Yes. The app is distributed free of charge through its GitHub repository.
+Yes. OutyDS is free and open-source software distributed under GNU GPL-3.0, through its GitHub repository. It is distributed by an individual, not a company.
+
+Are donations required? Do they unlock anything?
+
+No. Donations are optional and voluntary. They do not unlock paid features, do not give priority support and create no service or support contract. See DONATIONS.md.
 
 Where can I download Outy?
 
@@ -157,7 +161,21 @@ Back up any important app data before updating. Whether settings are preserved d
 
 Where can I get help?
 
-Check the Wiki first. If you still need help, report the issue through GitHub and include your vehicle model year, phone model, Android version and relevant logs.
+Check this FAQ and the Wiki first. If you still need help, report the issue through GitHub and include your vehicle model year, phone model, Android version and relevant logs. Remove your VIN, GPS coordinates, passwords and other personal data from logs before posting. See SUPPORT.md.
+
+Is support guaranteed?
+
+No. Support is provided on a best-effort basis, without guaranteed response times, fixes, updates or compatibility. Donations do not change this.
+
+What is the current version, and has 1.96 been released?
+
+The project files in the repository are version 1.96. The latest published release (checked 2026-11-24) is v.1.95 (OutyDS_1.95.apk). Version 1.96 has not been released yet.
+
+8. Source code
+
+Does the repository contain the original Java/Kotlin source?
+
+No. It contains an Apktool project: AndroidManifest.xml, apktool.yml, decompiled Smali files, WebView application files (some JavaScript is minified) and Android resources, plus build.sh. There is no original Java/Kotlin source tree. Whether this satisfies the GPL Corresponding Source requirements is an unresolved question. See SOURCE_STATUS.md and THIRD_PARTY_NOTICES.md.
 
 ---
 

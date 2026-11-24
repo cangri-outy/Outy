@@ -1,16 +1,34 @@
 # Security policy
 
+OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations are voluntary and help support continued development. Support is provided on a best-effort basis, without guaranteed response times, fixes, updates or compatibility.
+
 ## Reporting a vulnerability
-Please report security problems **privately** using GitHub's "Report a vulnerability" button (Security tab of this repository). If that button is not available, open a public issue that says only "security contact please" (no details) and a private channel will be arranged.
-Include the app version, Android version, steps to reproduce and the impact. You will get a first answer within 7 days.
+Security reports are handled on a **best-effort** basis. There is **no guaranteed response time** and **no promise that every report will receive a fix**.
+
+- Please do **not** post vulnerability details in a public issue.
+- GitHub's private vulnerability reporting was **not enabled** when last checked (2026-11-24). If the *Security* tab offers "Report a vulnerability", use it. Otherwise open a public issue that says only "security contact please", with no details, and the maintainer may arrange a private channel.
+- Useful details: OutyDS version, Android version, steps to reproduce and impact.
 
 ## Supported versions
-Only the latest release receives fixes.
+Only the latest published release is considered. Latest published release at the last check: **v.1.95**; the repository files are version 1.96 (not yet released).
 
-## Scope notes
-- The app talks to a vehicle adapter (Bluetooth or WiFi OBD) and, for the Remote tab, to the car's own WiFi network. Commands that write to the vehicle are limited and confirmed by the user.
-- The WebView loads only the app's bundled pages; messages between pages are accepted only from the app's own frames; stored values shown in the UI are escaped.
-- The native bridge only opens `https://` links and only downloads updates from `https://github.com/`; the installer is always confirmed by the user in Android.
-- Known limitations: the car WiFi password is stored unencrypted in the app sandbox (backup disabled); the WebView has file access enabled for bundled assets; the Remote link to the car uses the car's own unencrypted-by-design protocol on its private WiFi.
-- The repository never contains signing keys. Releases are signed with a private key kept by the maintainer; updates only install over the same signature.
-- Verify downloads with the published `SHA256SUMS` file.
+## Vehicle communication scope
+- The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a speed check.
+- The Remote tab sends commands to the car over its own WiFi: climate, lights and charging-related functions.
+- **Scheduled pre-heating can run automatically.** Once the user has configured and enabled it, the app starts the climate command at the planned time without asking for a further confirmation.
+
+## Updates and signing
+- APK updates are installed through Android's installer, which asks the user to confirm.
+- Android only accepts an update signed with the **same signing certificate** and package name as the installed app. Releases are signed with a private key kept by the maintainer; the key is not in this repository.
+- Verify downloads with the `SHA256SUMS` file attached to a release, when one is present.
+
+## What has been reviewed
+- The WebView navigates only within the bundled pages, and the native bridge only opens `https://` links and only downloads updates from `https://github.com/`.
+- Messages between the app's pages are checked for the expected source frame.
+- Some dynamic values shown in the interface are escaped. **No blanket guarantee is made** that every dynamic value in every code path is escaped.
+
+## Known limitations
+- The car's WiFi password is stored unencrypted in the app's private storage (backup disabled).
+- The WebView has file access enabled for bundled assets.
+- The Remote link to the car uses the car's own protocol on its private WiFi.
+- The repository is an Apktool project with decompiled Smali and some minified JavaScript (see [SOURCE_STATUS.md](SOURCE_STATUS.md)), which makes independent review harder.
