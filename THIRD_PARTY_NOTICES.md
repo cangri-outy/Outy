@@ -27,7 +27,7 @@ The original Java/Kotlin source tree is **not available** in this repository. Th
 ## Own and AI-assisted work
 
 - According to the maintainer, all other code was written with AI assistance (Claude). According to the maintainer, parts of the Remote logic follow behaviour first developed in the maintainer's own SIDMonitor experiments (not published separately); this has not been independently verified.
-- Images in `app/assets/` (`car_top.jpg`, `car3d.jpg`, `car-photo.jpg`, `engine_on.png`, `engine_on2.png`) were, according to the maintainer, generated with AI (Gemini). The rights status of such images has not been legally assessed.
+- Images in `app/assets/` (`car_top.jpg`, `car3d.jpg`, `car-photo.jpg`, `engine_on.png`) were, according to the maintainer, generated with AI (Gemini). The rights status of such images has not been legally assessed.
 
 ## What is not included
 
