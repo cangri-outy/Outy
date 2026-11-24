@@ -55,3 +55,7 @@ OutyDS updates must meet the following requirements:
 ## 📄 License and source
 
 OutyDS is free software under the **GNU GPL v3** (see `LICENSE`). The complete source is in `app/` (apktool project); build instructions are in `BUILDING.md`. Third-party notices are in `NOTICE.md`.
+
+## ⚠️ Disclaimer
+
+Outy / OutyDS is an unofficial community project, not affiliated with or endorsed by Mitsubishi Motors. It is provided **without any warranty**, under the GNU GPL v3. Use at your own risk: commands sent to the vehicle (climate, lights, charging) and any write operation are your responsibility. Do not use the app while driving in a way that distracts you.
