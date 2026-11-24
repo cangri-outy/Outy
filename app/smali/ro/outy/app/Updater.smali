@@ -15,6 +15,23 @@
 .method public static start(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)J
     .locals 6
 
+    if-eqz p1, :upd_bad
+
+    const-string v0, "https://github.com/"
+
+    invoke-virtual {p1, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :upd_ok
+
+    :upd_bad
+    const-wide/16 v0, -0x1
+
+    return-wide v0
+
+    :upd_ok
+
     :try_start_0
     const-string v0, "download"
 

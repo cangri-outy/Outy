@@ -11,6 +11,12 @@ OutyDS is licensed under GPL-3.0 (see `LICENSE`). It includes or uses the follow
 | uber-apk-signer 1.3.0 — https://github.com/patrickfav/uber-apk-signer | Build tool, not distributed | Apache-2.0 | Version and SHA-256 are pinned in `build.sh`. |
 | Android platform / WebView | Runtime | Apache-2.0 / Chromium | Provided by the device. |
 
+## Icons and resources
+
+- Launcher icon (`app/res/mipmap-*`, `app/res/drawable/ic_launcher_*.xml`): drawn for this project.
+- UI icons are inline SVG paths in `app/assets/index.html` and `style.css` (data URIs). No icon font or icon library is bundled. They were written for this project with AI assistance; their shapes resemble common icon sets and have not been compared against any specific library.
+- No web fonts, no JavaScript libraries (no jQuery, chart or UI frameworks) and no native `.so` libraries are bundled.
+
 ## Own and AI-assisted work
 
 - All other code was written by the project author with AI assistance (Claude). Parts of the Remote logic follow behaviour first developed in the author's own SIDMonitor experiments (not published separately).

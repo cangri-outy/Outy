@@ -4,7 +4,7 @@ OutyDS has **no account, no analytics, no ads and no server of its own**. Data s
 
 ## What the app reads
 - **Vehicle data** from your OBD adapter or the car's WiFi (speed, battery, temperatures, tyre pressures, fault codes, VIN).
-- **Location** (optional): used for GPS speed, altitude and, if you enable it, local weather.
+- **Location** (optional): used for GPS speed, altitude and, if you enable it, local weather. GPS is switched off when speed source is "car only" and online weather is off.
 - **Calendar** (optional, Remote tab): only to start pre-heating before an event you choose by keyword.
 - **Bluetooth / WiFi**: to connect to the adapter or the car.
 
@@ -17,6 +17,6 @@ Nothing else is sent. Vehicle data, VIN, location and logs are never uploaded by
 ## What is stored on your phone
 - Settings and trip/charge history in the app's private storage.
 - Optional CSV/JSON reports and OBD logs in your Downloads folder. **They can contain your VIN and GPS track: remove them before sharing.**
-- Car WiFi name and password (Remote tab), in the app's private storage.
+- Car WiFi name and password (Remote tab), in the app's private storage (Android app sandbox, **not additionally encrypted**; app backup is disabled).
 
 Uninstalling the app removes its private data; files in Downloads stay until you delete them.

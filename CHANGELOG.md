@@ -6,4 +6,4 @@
 - Charge statistics and cost, altitude climb/descent, motor share, SoC and cell alerts.
 - TPMS: dead sources are skipped, ECU 600 layout decoded, values expire after 3 minutes, no values kept between sessions.
 - In-app updates from GitHub (default repo `cangri-outy/Outy`).
-- GPL-3.0 notice, disclaimer and source published; security hardening (message source checks, escaping).
+- GPL-3.0 notice, disclaimer and source published; security hardening (message source checks, escaping, https-only links, updates only from github.com).

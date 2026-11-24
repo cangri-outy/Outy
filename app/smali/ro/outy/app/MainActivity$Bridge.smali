@@ -351,6 +351,23 @@
     .annotation runtime Landroid/webkit/JavascriptInterface;
     .end annotation
 
+    if-eqz p1, :url_bad
+
+    const-string v0, "https://"
+
+    invoke-virtual {p1, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :url_ok
+
+    :url_bad
+    const/4 v0, 0x0
+
+    return v0
+
+    :url_ok
+
     :try_start_0
     new-instance v0, Landroid/content/Intent;
 

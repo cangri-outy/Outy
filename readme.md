@@ -54,7 +54,7 @@ OutyDS updates must meet the following requirements:
 
 ## 📄 License and source
 
-OutyDS is free software under the **GNU GPL v3** (see `LICENSE`). The complete source is in `app/` (apktool project); build instructions are in `BUILDING.md`. Third-party notices are in `THIRD_PARTY_NOTICES.md`.
+OutyDS is free software under the **GNU GPL v3** (see `LICENSE`). The complete source is in `app/` (apktool project); build instructions are in `BUILDING.md`. Third-party notices: `THIRD_PARTY_NOTICES.md`. Source status and known limits: `SOURCE_STATUS.md`.
 
 ## ⚠️ Disclaimer
 

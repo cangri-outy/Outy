@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Repository checks, JS syntax and unit tests
+        run: bash scripts/check-repo.sh
+
+  build:
+    runs-on: ubuntu-latest
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build with a throw-away test keystore (the real release key is never in CI)
+        run: |
+          keytool -genkeypair -keystore "$RUNNER_TEMP/ci.jks" -alias ci -storepass ci-test-pass -keypass ci-test-pass \
+            -dname "CN=CI test" -keyalg RSA -keysize 2048 -validity 2 >/dev/null 2>&1
+          KS="$RUNNER_TEMP/ci.jks" KS_ALIAS=ci KS_PASS=ci-test-pass bash build.sh
+      - name: Check the built APK
+        run: |
+          cat dist/SHA256SUMS
+          unzip -l dist/OutyDS.apk | grep -E 'classes.dex|AndroidManifest.xml|assets/app.js'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-test-build-unsigned-by-release-key
+          path: dist/SHA256SUMS

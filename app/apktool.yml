@@ -1,5 +1,5 @@
 version: 2.10.0
-apkFileName: 2dcd3c36-outy_1.90_1.apk
+apkFileName: OutyDS.apk
 isFrameworkApk: false
 usesFramework:
   ids:
