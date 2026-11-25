@@ -6,11 +6,11 @@ OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations
 Security reports are handled on a **best-effort** basis. There is **no guaranteed response time** and **no promise that every report will receive a fix**.
 
 - Please do **not** post vulnerability details in a public issue.
-- GitHub's private vulnerability reporting was **not enabled** when last checked (2026-11-24). If the *Security* tab offers "Report a vulnerability", use it. Otherwise open a public issue that says only "security contact please", with no details, and the maintainer may arrange a private channel.
+- GitHub's private vulnerability reporting was **not enabled** when last checked (2026-11-25). If the *Security* tab offers "Report a vulnerability", use it. Otherwise open a public issue that says only "security contact please", with no details, and the maintainer may arrange a private channel.
 - Useful details: OutyDS version, Android version, steps to reproduce and impact.
 
 ## Supported versions
-Only the latest published release is considered. Latest published release at the last check (2026-11-25): **v.1.96**; the repository files are version 1.96.
+Only the latest published release (see the [Releases page](https://github.com/cangri-outy/Outy/releases)) is considered. The repository files are version 1.96.
 
 ## Vehicle communication scope
 - The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. Manually typed console commands are filtered to read-only diagnostic services. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a refusal above 5 km/h.

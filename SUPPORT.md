@@ -26,6 +26,6 @@ Open a new issue on [GitHub Issues](https://github.com/cangri-outy/Outy/issues) 
 - Steps to reproduce the problem
 
 ## Before you publish logs or screenshots
-Logs, CSV/JSON reports and screenshots can contain your **VIN**, **GPS coordinates**, the car's WiFi name and password and other personal data. **Remove all of it before posting.** Never post passwords or other secrets.
+Logs and CSV/JSON reports can contain your **VIN** and **GPS coordinates** (location track). Screenshots of the Remote settings screen can show the car's **WiFi name and password**. No code was found that writes the WiFi password into logs or reports. **Remove or crop all of this before posting**, and never post passwords or other secrets.
 
 Security problems: see [SECURITY.md](SECURITY.md), do not post them publicly.

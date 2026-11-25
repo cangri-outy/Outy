@@ -36,7 +36,7 @@ No other network destination was found in the code. Exported files and logs are 
 - **Location:** used on the phone; only the rounded value above is sent, and only for weather.
 
 ## Logs and exports
-The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **can contain your VIN and location (GPS track)** and other vehicle data. **Sanitise them before sharing** (see [SUPPORT.md](SUPPORT.md)). They stay on the phone until you delete them.
+The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **can contain your VIN and location (GPS track)** and other vehicle data. No code was found that writes the car's WiFi password into logs or reports; the WiFi name and password are visible on the Remote settings screen, so they can appear in screenshots. The optional "Diagnostic capture" switch in the Remote tab (off by default) additionally writes the Remote protocol traffic to `OutyDS-capture-*` files in Downloads. **Sanitise them before sharing** (see [SUPPORT.md](SUPPORT.md)). They stay on the phone until you delete them.
 
 ## Background service, alarms and notifications
 - While connected, a foreground service keeps the vehicle connection alive and shows a persistent notification (including live values).
@@ -46,4 +46,4 @@ The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **
 ## Uninstalling
 Uninstalling removes the app's private data. Files in Downloads stay until you delete them.
 
-Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.96** (`OutyDS_1.96.apk`, published 2026-11-24; its tag `v.1.96` points to commit `5b24a27`, which contains the exact source of that APK; the release APK's SHA-256 was checked to equal the build from that source). The previous release is v.1.95.
+Project version: **1.96** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases) (the `v.1.96` tag points at the commit that contains the source of the published APK). Release status is not repeated in this file so that it cannot become outdated.

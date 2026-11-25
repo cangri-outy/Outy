@@ -33,6 +33,7 @@ grep -qi 'phev2mqtt' THIRD_PARTY_NOTICES.md && grep -qi 'OBDb' THIRD_PARTY_NOTIC
 
 # 5. JS syntax and unit tests
 for f in app/assets/*.js; do node --check "$f" || err "syntax error in $f"; done
+node scripts/check-docs.js || err "documentation/text consistency check failed"
 node --test tests/*.test.js || err "unit tests failed"
 if command -v javac >/dev/null 2>&1; then
   d=$(mktemp -d)

@@ -1,18 +1,18 @@
-Outy – Frequently Asked Questions (FAQ)
+OutyDS – Frequently Asked Questions (FAQ)
 
-Outy is an unofficial Android companion app for the Mitsubishi Outlander PHEV, designed to provide access to vehicle information, battery data and remote-control functions.
+OutyDS is an unofficial Android companion app for the Mitsubishi Outlander PHEV, designed to provide access to vehicle information, battery data and remote-control functions.
 
 1. General
 
-What is Outy?
+What is OutyDS?
 
-Outy is an Android app for Mitsubishi Outlander PHEV owners. It provides access to vehicle information, battery monitoring and supported remote-control functions.
+OutyDS is an Android app for Mitsubishi Outlander PHEV owners. It provides access to vehicle information, battery monitoring and supported remote-control functions.
 
-Is Outy an official Mitsubishi application?
+Is OutyDS an official Mitsubishi application?
 
-No. Outy is an independent community project and is not affiliated with, endorsed by or supported by Mitsubishi Motors.
+No. OutyDS is an independent community project and is not affiliated with, endorsed by or supported by Mitsubishi Motors.
 
-Is Outy free?
+Is OutyDS free?
 
 Yes. OutyDS is free and open-source software distributed under GNU GPL-3.0, through its GitHub repository. It is distributed by an individual, not a company.
 
@@ -20,7 +20,7 @@ Are donations required? Do they unlock anything?
 
 No. Donations are optional and voluntary. They do not unlock paid features, do not give priority support and create no service or support contract. See DONATIONS.md.
 
-Where can I download Outy?
+Where can I download OutyDS?
 
 Download the latest available version here:
 
@@ -36,46 +36,46 @@ https://github.com/cangri-outy/Outy/wiki
 
 Which Mitsubishi Outlander PHEV models are supported?
 
-Compatibility depends on the vehicle generation, model year and electronic systems. Not every function is necessarily available on every model.
+OutyDS is aimed at Outlander PHEV model years 2013–2018 (the maintainer's target; not verified on every model year). It has been checked only with logs from one 2016 car and a Bluetooth OBD adapter. The WiFi OBD adapter, the Remote tab and the 1.96 tyre-pressure decoding have not been verified on a real vehicle. Signals for 2021 and newer models are experimental. Compatibility depends on the vehicle generation, model year and electronic systems, and not every function is necessarily available on every model.
 
 Check the Wiki for compatibility information. If you are unsure, provide your vehicle's model year and generation.
 
-Does Outy work on every Android phone?
+Does OutyDS work on every Android phone?
 
-Outy is designed for Android phones. Compatibility can depend on the Android version, phone hardware and available wireless features.
+OutyDS is designed for Android phones. Compatibility can depend on the Android version, phone hardware and available wireless features.
 
-How do I install Outy?
+How do I install OutyDS?
 
 1. Download the latest APK from the Releases page.
 2. Open the downloaded APK on your Android phone.
 3. Allow installation from that source if Android asks.
-4. Complete the installation and open Outy.
+4. Complete the installation and open OutyDS.
 
 Only download APK files from the official project repository.
 
 3. Vehicle connection
 
-How does Outy communicate with the car?
+How does OutyDS communicate with the car?
 
-The local remote-control connection uses the vehicle's Wi-Fi system. Your phone needs to connect to the vehicle's Wi-Fi network when using functions that communicate directly with the car.
+The local remote-control connection uses the vehicle's WiFi system. Your phone needs to connect to the vehicle's WiFi network when using functions that communicate directly with the car.
 
-The car's Wi-Fi says "No internet". Is that normal?
+The car's WiFi says "No internet". Is that normal?
 
-Yes. The vehicle's Wi-Fi is used for communication with the car and does not necessarily provide internet access.
+Yes. The vehicle's WiFi is used for communication with the car and does not necessarily provide internet access.
 
 Can I use the internet while connected to the car?
 
-This depends on your phone's Android version and network configuration. The car's Wi-Fi connection and mobile data connection serve different purposes.
+This depends on your phone's Android version and network configuration. The car's WiFi connection and mobile data connection serve different purposes.
 
 Can I control my car from anywhere over the internet?
 
-Do not assume that local Wi-Fi remote-control functions are available remotely over the internet. Remote access requires a separately supported communication solution.
+Do not assume that local WiFi remote-control functions are available remotely over the internet. Remote access requires a separately supported communication solution.
 
 4. Vehicle information and battery monitoring
 
-What vehicle information can Outy display?
+What vehicle information can OutyDS display?
 
-Depending on vehicle compatibility and available data, Outy can display vehicle and battery information.
+Depending on vehicle compatibility and available data, OutyDS can display vehicle and battery information.
 
 What battery information is available?
 
@@ -105,7 +105,7 @@ Why does a remote command sometimes do nothing?
 
 Possible reasons include:
 
-- The phone is not connected to the vehicle's Wi-Fi.
+- The phone is not connected to the vehicle's WiFi.
 - The vehicle is not responding.
 - The selected function is unsupported by that vehicle.
 - The vehicle's control system has rejected the command.
@@ -119,13 +119,13 @@ No. Different Outlander PHEV generations use different electronic systems and co
 
 6. Troubleshooting
 
-Outy cannot connect to the vehicle.
+OutyDS cannot connect to the vehicle.
 
 Check that:
 
 1. The vehicle is switched on or in the appropriate remote-control state.
-2. Your phone is connected to the vehicle's Wi-Fi.
-3. Android has not switched to another Wi-Fi network.
+2. Your phone is connected to the vehicle's WiFi.
+3. Android has not switched to another WiFi network.
 4. You are within range of the vehicle.
 
 The app displays missing or incorrect information.
@@ -138,7 +138,7 @@ Please report:
 
 - Your phone model
 - Android version
-- Outy version
+- OutyDS version
 - What you were doing when the crash occurred
 
 How do I report a bug or request a feature?
@@ -149,7 +149,7 @@ https://github.com/cangri-outy/Outy/issues
 
 7. Updates and support
 
-How do I update Outy?
+How do I update OutyDS?
 
 Check the Releases page for new versions:
 
@@ -161,15 +161,15 @@ Back up any important app data before updating. Whether settings are preserved d
 
 Where can I get help?
 
-Check this FAQ and the Wiki first. If you still need help, report the issue through GitHub and include your vehicle model year, phone model, Android version and relevant logs. Remove your VIN, GPS coordinates, passwords and other personal data from logs before posting. See SUPPORT.md.
+Check this FAQ and the Wiki first. If you still need help, report the issue through GitHub and include your vehicle model year, phone model, Android version and relevant logs. Remove your VIN and GPS coordinates from logs before posting, and hide the car's WiFi name and password if they are visible in a screenshot. See SUPPORT.md.
 
 Is support guaranteed?
 
 No. Support is provided on a best-effort basis, without guaranteed response times, fixes, updates or compatibility. Donations do not change this.
 
-What is the current version, and has 1.96 been released?
+What is the current version?
 
-The project files in the repository are version 1.96. The latest published release (checked 2026-11-25) is v.1.96 (OutyDS_1.96.apk, tag v.1.96 = commit 5b24a27). The previous release is v.1.95.
+The project files in the repository are version 1.96, and 1.96 has been published as a GitHub Release (v.1.96, `OutyDS_1.96.apk`). The Releases page always shows the current release.
 
 8. Source code
 
@@ -179,4 +179,4 @@ No. It contains an Apktool project: AndroidManifest.xml, apktool.yml, decompiled
 
 ---
 
-Disclaimer: Outy is an independent project. Use remote-control functions responsibly. Always check that the vehicle is in a safe condition before sending commands.
+Disclaimer: OutyDS is an independent project. Use remote-control functions responsibly. Always check that the vehicle is in a safe condition before sending commands.

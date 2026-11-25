@@ -1,5 +1,10 @@
 # Changelog
 
+## After v.1.96 (on `main`, not part of the published APK)
+- About screen text (RO/EN) now states the targeted model years (2013–2018) and that only logs from one 2016 car were checked; Romanian typo "Activeaz-o" corrected; Romanian label of the battery health tab aligned with the English one.
+- Documentation: consistent naming (OutyDS = application, Outy = repository), "WiFi" spelling, vehicle-compatibility section, clearer wording on what logs and screenshots can contain, release status no longer repeated in several files.
+- `scripts/check-docs.js` (run by `scripts/check-repo.sh` and CI): version consistency, translation completeness, stale release wording, spelling and relative links.
+
 ## 1.96 (published as v.1.96, `OutyDS_1.96.apk`)
 - Bluetooth or WiFi OBD adapter, chosen from the Conectare button (WiFi: plain TCP, default port 35000; not yet tested with a real WiFi adapter).
 - Data regrouped: Baterie page (energy, charging, trip energy, cells, battery temperatures) and Motor page (trip, engine, ECU signals, electric motors, climate).
@@ -17,4 +22,4 @@
 ## 1.95 (published as v.1.95, `OutyDS_1.95.apk`)
 - Published release. No changelog was kept for it in this repository.
 
-The latest published GitHub Release is v.1.96 (checked 2026-11-25).
+The current release is shown on the GitHub Releases page.

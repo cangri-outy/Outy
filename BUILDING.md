@@ -8,7 +8,7 @@ An **Apktool project** (`app/`): `AndroidManifest.xml`, `apktool.yml`, decompile
 ## Project facts
 - Package name: `ro.outyds.app`
 - Project version: `versionName 1.96`, `versionCode 100` (`app/apktool.yml`)
-- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.96** (`OutyDS_1.96.apk`, published 2026-11-24; its tag `v.1.96` points to commit `5b24a27`, which contains the exact source of that APK; the release APK's SHA-256 was checked to equal the build from that source). The previous release is v.1.95.
+- Project version: **1.96** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases) (the `v.1.96` tag points at the commit that contains the source of the published APK). Release status is not repeated in this file so that it cannot become outdated.
 
 ## Requirements
 Java 11+ and `curl`. `build.sh` downloads and checks the tools:
