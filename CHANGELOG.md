@@ -3,6 +3,9 @@
 ## After v.1.96 (on `main`, not part of the published APK)
 - About screen text (RO/EN) now states the targeted model years (2013–2018) and that only logs from one 2016 car were checked; Romanian typo "Activeaz-o" corrected; Romanian label of the battery health tab aligned with the English one.
 - Documentation: consistent naming (OutyDS = application, Outy = repository), "WiFi" spelling, vehicle-compatibility section, clearer wording on what logs and screenshots can contain, release status no longer repeated in several files.
+- Battery health (SOH): the nominal capacity is now chosen per car from the VIN model year (40 Ah up to MY2018, 46 Ah from MY2019; US-built MY2019 40 Ah), following the per-model values found in PHEV Watchdog 1.9.1; a value typed in Settings still wins. SOH stays capacity / nominal. Not verified on a car.
+- Range: the consumption used for the estimate is 12 % higher (more conservative).
+- The notification service is stopped when the app is closed or removed from recent apps (reported on Huawei P30; not verified on that phone).
 - `scripts/check-docs.js` (run by `scripts/check-repo.sh` and CI): version consistency, translation completeness, stale release wording, spelling and relative links.
 
 ## 1.96 (published as v.1.96, `OutyDS_1.96.apk`)
