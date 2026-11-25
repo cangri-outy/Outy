@@ -137,6 +137,20 @@
     return-void
 .end method
 
+.method public onTaskRemoved(Landroid/content/Intent;)V
+    .locals 1
+
+    const/4 v0, 0x1
+
+    invoke-virtual {p0, v0}, Landroid/app/Service;->stopForeground(Z)V
+
+    invoke-virtual {p0}, Landroid/app/Service;->stopSelf()V
+
+    invoke-super {p0, p1}, Landroid/app/Service;->onTaskRemoved(Landroid/content/Intent;)V
+
+    return-void
+.end method
+
 .method public onStartCommand(Landroid/content/Intent;II)I
     .locals 8
 

@@ -2255,8 +2255,23 @@
 .end method
 
 .method protected onDestroy()V
-    .locals 1
+    .locals 2
 
+    invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_keep
+
+    new-instance v0, Landroid/content/Intent;
+
+    const-class v1, Lro/outy/app/KeepAliveService;
+
+    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+    invoke-virtual {p0, v0}, Landroid/app/Activity;->stopService(Landroid/content/Intent;)Z
+
+    :cond_keep
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Lro/outy/app/MainActivity;->want:Z
