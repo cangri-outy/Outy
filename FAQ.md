@@ -169,7 +169,7 @@ No. Support is provided on a best-effort basis, without guaranteed response time
 
 What is the current version, and has 1.96 been released?
 
-The project files in the repository are version 1.96. The latest published release (checked 2026-11-24) is v.1.95 (OutyDS_1.95.apk). Version 1.96 has not been released yet.
+The project files in the repository are version 1.96. The latest published release (checked 2026-11-25) is v.1.96 (OutyDS_1.96.apk, tag v.1.96 = commit 5b24a27). The previous release is v.1.95.
 
 8. Source code
 

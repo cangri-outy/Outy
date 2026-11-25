@@ -10,7 +10,7 @@ Security reports are handled on a **best-effort** basis. There is **no guarantee
 - Useful details: OutyDS version, Android version, steps to reproduce and impact.
 
 ## Supported versions
-Only the latest published release is considered. Latest published release at the last check: **v.1.95**; the repository files are version 1.96 (not yet released).
+Only the latest published release is considered. Latest published release at the last check (2026-11-25): **v.1.96**; the repository files are version 1.96.
 
 ## Vehicle communication scope
 - The OBD part (Bluetooth or WiFi adapter) is intended for reading vehicle data. Manually typed console commands are filtered to read-only diagnostic services. The only write-type operation is clearing fault codes, which the user starts explicitly, with a confirmation and a refusal above 5 km/h.
@@ -23,7 +23,7 @@ Only the latest published release is considered. Latest published release at the
 - Verify downloads with the `SHA256SUMS` file attached to a release, when one is present.
 
 ## What has been reviewed
-These points describe the **project files (version 1.96, not yet released)**. The published v.1.95 does not include them.
+These points describe the **project files and the published v.1.96**. The older v.1.95 does not include them.
 
 - The WebView navigates only within the bundled pages, and the native bridge only opens `https://` links and only downloads updates from `https://github.com/`.
 - Messages between the app's pages are checked for the expected source frame.

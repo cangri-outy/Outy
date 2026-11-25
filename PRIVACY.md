@@ -46,4 +46,4 @@ The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **
 ## Uninstalling
 Uninstalling removes the app's private data. Files in Downloads stay until you delete them.
 
-Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.95** (`OutyDS_1.95.apk`). Version 1.96 has not been released yet.
+Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.96** (`OutyDS_1.96.apk`, published 2026-11-24; its tag `v.1.96` points to commit `5b24a27`, which contains the exact source of that APK; the release APK's SHA-256 was checked to equal the build from that source). The previous release is v.1.95.

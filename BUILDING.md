@@ -8,7 +8,7 @@ An **Apktool project** (`app/`): `AndroidManifest.xml`, `apktool.yml`, decompile
 ## Project facts
 - Package name: `ro.outyds.app`
 - Project version: `versionName 1.96`, `versionCode 100` (`app/apktool.yml`)
-- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.95** (`OutyDS_1.95.apk`). Version 1.96 has not been released yet.
+- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.96** (`OutyDS_1.96.apk`, published 2026-11-24; its tag `v.1.96` points to commit `5b24a27`, which contains the exact source of that APK; the release APK's SHA-256 was checked to equal the build from that source). The previous release is v.1.95.
 
 ## Requirements
 Java 11+ and `curl`. `build.sh` downloads and checks the tools:
@@ -33,7 +33,7 @@ When a release is published, attach `SHA256SUMS` to the **GitHub Release** next 
 - **Never commit the keystore.**
 - Android only installs an update over an existing installation if the APK has the same package name and is signed with the **same original signing key**.
 - **A newly generated signing key cannot update an existing installation.** Users would have to uninstall first, which deletes the app's data.
-- The signing certificate of the published v.1.95 APK has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95. If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
+- The signing certificate of the published v.1.95 and v.1.96 APKs has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95 (and v.1.96). If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
 - Builds are not bit-for-bit reproducible (signing adds timestamps).
 
 ## In-app updates

@@ -2,7 +2,7 @@
 
 Outy is an Android application designed for the Mitsubishi Outlander PHEV.
 
-Monitor vehicle information, access diagnostic features and explore data from your vehicle using a compatible Bluetooth OBD-II adapter (the unreleased 1.96 also supports WiFi OBD adapters).
+Monitor vehicle information, access diagnostic features and explore data from your vehicle using a compatible Bluetooth OBD-II adapter (1.96 also supports WiFi OBD adapters; this is not yet verified with a real adapter).
 
 ## 📥 Download Outy
 
@@ -60,7 +60,7 @@ OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations
 - **What the repository contains:** an [Apktool](https://apktool.org) project in `app/`: `AndroidManifest.xml`, `apktool.yml`, decompiled **Smali** files (`app/smali/`), the WebView application files (`app/assets/`) and Android resources (`app/res/`), plus `build.sh`. It does **not** contain an original Java/Kotlin source tree, and some JavaScript files are minified. Details: [SOURCE_STATUS.md](SOURCE_STATUS.md).
 - **GPL Corresponding Source:** whether this repository fully satisfies the GPL Corresponding Source requirements is an **unresolved question**; it has not been legally established.
 - **Third-party components:** [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). **Build instructions:** [BUILDING.md](BUILDING.md).
-- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.95** (`OutyDS_1.95.apk`). Version 1.96 has not been released yet.
+- Version status (checked 2026-11-24): the project files in this repository are version **1.96**. The latest **published** GitHub Release is **v.1.96** (`OutyDS_1.96.apk`, published 2026-11-24; its tag `v.1.96` points to commit `5b24a27`, which contains the exact source of that APK; the release APK's SHA-256 was checked to equal the build from that source). The previous release is v.1.95.
 
 ## ❤️ Donations and support
 
