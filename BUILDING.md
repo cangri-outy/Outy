@@ -7,7 +7,7 @@ An **Apktool project** (`app/`): `AndroidManifest.xml`, `apktool.yml`, decompile
 
 ## Project facts
 - Package name: `ro.outyds.app`
-- Project version: **1.97**, versionCode 101 (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); each release tag points at the commit that contains that APK's source. Release status is not repeated in this file so that it cannot become outdated.
+- Project version: **1.97**, versionCode 101 (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); the tags `v.1.96` and `v.1.97` point at commits that contain the Apktool project of the corresponding APK (checked 2026-11-28), but the tag `v.1.95` does **not** contain the source of its APK (documented source-availability gap, see [SOURCE_STATUS.md](SOURCE_STATUS.md)). Release status is not otherwise repeated in this file so that it cannot become outdated.
 
 ## Requirements
 Java 11+ and `curl`. `build.sh` downloads and checks the tools:
@@ -17,7 +17,7 @@ Java 11+ and `curl`. `build.sh` downloads and checks the tools:
 | Apktool | 2.10.0 | `c0350abbab5314248dfe2ee0c907def4edd14f6faef1f5d372d3d4abd28f0431` |
 | uber-apk-signer | 1.3.0 | `e1299fd6fcf4da527dd53735b56127e8ea922a321128123b9c32d619bba1d835` |
 
-The script stops if a checksum does not match. It also stops if the version in `app/apktool.yml` and `app/assets/update.js` differ.
+The script stops if a checksum does not match. It also stops if the version in `app/apktool.yml` and `app/assets/update.js` differ, or if `versionCode` in `app/apktool.yml` is not a number.
 
 ## Build
 ```
@@ -32,7 +32,7 @@ When a release is published, attach `SHA256SUMS` to the **GitHub Release** next 
 - **Never commit the keystore.**
 - Android only installs an update over an existing installation if the APK has the same package name and is signed with the **same original signing key**.
 - **A newly generated signing key cannot update an existing installation.** Users would have to uninstall first, which deletes the app's data.
-- The signing certificate of the published v.1.95, v.1.96 and v.1.97 APKs has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95 (and v.1.96). If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
+- The signing certificate of the published v.1.95, v.1.96 and v.1.97 APKs has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95 and v.1.96. The release-report workflow run on `v.1.97` (2026-11-28) reported the same certificate for the attached APK. If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
 - Builds are not bit-for-bit reproducible (signing adds timestamps).
 
 ## In-app updates
