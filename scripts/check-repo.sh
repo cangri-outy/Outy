@@ -14,7 +14,7 @@ bad=$(git ls-files | grep -iE '\.csv$' | grep -v '^data/downloads\.csv$' || true
 pat='BEGIN (RSA |EC |OPENSSH |)PRIVATE KEY|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|(ksPass|storepass|KS_PASS)=[^ $"\x27.]+'
 hits=$(git grep -nIE "$pat" -- . ':!scripts/check-repo.sh' ':!.github' || true)
 [ -z "$hits" ] || err "possible secrets: $hits"
-vin=$(git grep -nIE '\b[A-HJ-NPR-Z0-9]{17}\b' -- ':!LICENSE' ':!*.smali' ':!app/assets/obdb.js' ':!app/assets/i18n.js' ':!app/assets/app.js' ':!app/res' ':!*.md' ':!app/apktool.yml' | grep -E '\bJM[A-Z0-9]{15}\b' || true)
+vin=$(git grep -nIE '\b[A-HJ-NPR-Z0-9]{17}\b' -- ':!LICENSE' ':!*.smali' ':!app/assets/obdb.js' ':!app/assets/i18n.js' ':!app/assets/app.js' ':!app/res' ':!*.md' ':!app/apktool.yml' | grep -E '\b[A-HJ-NPR-Z0-9]{17}\b' | grep -E '[0-9]' | grep -E '[A-HJ-NPR-Z]' || true)
 [ -z "$vin" ] || err "possible VIN in source: $vin"
 
 # 3. versions must agree: apktool.yml, update.js, CHANGELOG, app text
@@ -22,6 +22,8 @@ v_yml=$(sed -n 's/^  versionName: *//p' app/apktool.yml | tr -d "'\" ")
 v_js=$(sed -n 's/.*var VERSION = "\([^"]*\)".*/\1/p' app/assets/update.js)
 v_log=$(sed -n 's/^## *\([0-9][0-9.]*\).*/\1/p' CHANGELOG.md | head -1)
 v_i18n=$(grep -o 'about:\["OutyDS [0-9.]*' app/assets/i18n.js | grep -o '[0-9.]*$')
+v_vc=$(sed -n 's/^  versionCode: *//p' app/apktool.yml | tr -d "'\" ")
+case "$v_vc" in ''|*[!0-9]*) err "versionCode in apktool.yml is not a number: '$v_vc'" ;; esac
 echo "versions: apktool.yml=$v_yml update.js=$v_js changelog=$v_log about=$v_i18n"
 for v in "$v_js" "$v_log" "$v_i18n"; do [ "$v" = "$v_yml" ] || err "version mismatch ($v vs $v_yml)"; done
 

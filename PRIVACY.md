@@ -10,7 +10,7 @@ This document describes what the application does, based on its Android manifest
 | Bluetooth (`BLUETOOTH`, `BLUETOOTH_ADMIN`, `BLUETOOTH_CONNECT`) | Connect to a Bluetooth OBD-II adapter. |
 | WiFi / network (`ACCESS_WIFI_STATE`, `CHANGE_WIFI_STATE`, `NEARBY_WIFI_DEVICES`, `ACCESS_NETWORK_STATE`, `CHANGE_NETWORK_STATE`) | Connect to a WiFi OBD adapter and to the car's own WiFi (Remote tab). |
 | `INTERNET` | GitHub update check/download and optional Open-Meteo weather (see below); local connections to the adapter or car. |
-| Location (`ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`) | Optional: GPS speed, altitude and, if enabled, weather. |
+| Location (`ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`) | Optional: GPS speed, altitude and, if enabled, weather. Android may also require it for the WiFi functions (finding and joining the car's WiFi network, reading its name), even though the app does not use your position for that. |
 | `READ_CALENDAR` | Optional: read calendar events on the phone to schedule pre-heating (Remote tab). |
 | `WRITE_EXTERNAL_STORAGE` | Save logs and reports to the Downloads folder. |
 | `FOREGROUND_SERVICE` (+ `CONNECTED_DEVICE`, `DATA_SYNC`), `POST_NOTIFICATIONS`, `WAKE_LOCK` | Background connection service and its notification. |
@@ -23,7 +23,7 @@ This document describes what the application does, based on its Android manifest
 These connections are local to the phone and the vehicle.
 
 ## What leaves the phone
-- **GitHub (`api.github.com` and the release download):** an update check at start (can be switched off in Settings > Updates) and, only if you accept, the APK download. GitHub receives your IP address and the repository name being queried.
+- **GitHub (`api.github.com` and the release download):** an update check at start (can be switched off in Settings > Updates) and, only if you accept, the APK download (saved in the app's private folder, checked, and opened with the system installer). GitHub receives your IP address and the repository name being queried.
 - **Open-Meteo (`api.open-meteo.com`):** only if you enable online weather (off by default). Your location **rounded to two decimals (about 1 km)** is sent in the request URL. Open-Meteo receives your IP address.
 - **Links you tap** (for example donation pages) open in your browser, which then talks to those sites.
 - Android's DownloadManager performs the update download.
@@ -36,7 +36,7 @@ No other network destination was found in the code. Exported files and logs are 
 - **Location:** used on the phone; only the rounded value above is sent, and only for weather.
 
 ## Logs and exports
-The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **can contain your VIN and location (GPS track)** and other vehicle data. No code was found that writes the car's WiFi password into logs or reports; the WiFi name and password are visible on the Remote settings screen, so they can appear in screenshots. The optional "Diagnostic capture" switch in the Remote tab (off by default) additionally writes the Remote protocol traffic to `OutyDS-capture-*` files in Downloads. **Sanitise them before sharing** (see [SUPPORT.md](SUPPORT.md)). They stay on the phone until you delete them.
+The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **can contain your location (GPS track)** and other vehicle data. From 1.97 the VIN written into CSV/JSON reports, the OBD console export header and the Remote log lines is shortened: the last 6 characters (the serial number) are replaced by `******` (or `**` in Remote log frames). The VIN is still shown in full on screen, and the `OutyDS-capture-*` files are not changed by this. The Remote tab writes its log automatically to an `OutyDS-log-*` file in Downloads while it is in use (no switch is needed); the file stops growing at about 2 MB per session. The "Clear" button only empties the log on the screen and does not delete that file. No code was found that writes the car's WiFi password into logs or reports; the WiFi name and password are visible on the Remote settings screen, so they can appear in screenshots. The optional "Diagnostic capture" switch in the Remote tab (off by default) additionally writes the Remote protocol traffic to `OutyDS-capture-*` files in Downloads. **Sanitise them before sharing** (see [SUPPORT.md](SUPPORT.md)). They stay on the phone until you delete them.
 
 ## Background service, alarms and notifications
 - While connected, a foreground service keeps the vehicle connection alive and shows a persistent notification (including live values).
@@ -46,4 +46,4 @@ The app can save CSV/JSON reports and OBD logs in your Downloads folder. They **
 ## Uninstalling
 Uninstalling removes the app's private data. Files in Downloads stay until you delete them.
 
-Project version: **1.96** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases) (the `v.1.96` tag points at the commit that contains the source of the published APK). Release status is not repeated in this file so that it cannot become outdated.
+Project version: **1.97** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); each release tag points at the commit that contains that APK's source. Release status is not repeated in this file so that it cannot become outdated.

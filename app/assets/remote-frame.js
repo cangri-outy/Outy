@@ -1,3 +1,4 @@
+try { var _l = localStorage.getItem("outy.lang"); if (_l === "ro" || _l === "en") document.documentElement.lang = _l; } catch (e) {}
 /* Native -> page callbacks are evaluated on the top window; the top page forwards them here via postMessage. */
 window.addEventListener("message", function (e) {
   var d = e.data;

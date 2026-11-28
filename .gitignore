@@ -5,3 +5,10 @@
 app/build/
 dist/
 tools/
+*.p12
+*.pfx
+*.pem
+*.key
+keystore.properties
+*.log
+OutyDS-*

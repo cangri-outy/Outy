@@ -3,7 +3,8 @@
   "use strict";
   var E = window.PhevEngine, N = window.PhevNative;
   var $ = function (id) { return document.getElementById(id); };
-  var ro = (navigator.language || "").indexOf("ro") === 0;
+  var ro = (function () { try { var l = localStorage.getItem("outy.lang"); if (l === "ro" || l === "en") return l === "ro"; } catch (e) { } return (navigator.language || "").indexOf("ro") === 0; })();
+  var tr2 = function (r, e) { return ro ? r : e; };
   var L = ro ? {
     off: "Deconectat", conn: "Se conectează…", wait: "Aștept mașina…", on: "Conectat", simple: "Conectează",
     disc: "Deconectează", soc: "Baterie", charge: "Încărcare", charging: "Se încarcă", notCharging: "Nu se încarcă",
@@ -44,7 +45,7 @@
     connection: "Connection", registerSec: "Register phone"
   };
   var root = $("phevRoot"); if (!root) return;
-  if (!N) { root.innerHTML = "<p class='muted'>PHEV native bridge missing.</p>"; return; }
+  if (!N) { root.innerHTML = "<p class='muted'>" + (ro ? "Puntea nativă PHEV lipsește." : "PHEV native bridge missing.") + "</p>"; return; }
 
   // ---- settings ----
   var DEF = { host: "192.168.8.46", port: 8080, ssid: "", psk: "", auto: false, minutes: 20, depart: 15, keyword: "", reqLoc: false, calMin: 20 };
@@ -157,10 +158,10 @@
     '<section class="phevPage" data-page="settings" hidden>' +
       '<div class="card"><h3>' + L.connection + '</h3><details class="phevDet" open><summary>Wi-Fi</summary>' +
       '<label class="phevF">SSID<input id="pSsid" placeholder="REMOTE…" autocapitalize="off" autocomplete="off"></label>' +
-      '<label class="phevF">Password<input id="pPsk" type="password" autocomplete="off"></label>' +
-      '<label class="phevF">Host<input id="pHost"></label><label class="phevF">Port<input id="pPort" inputmode="numeric"></label>' +
-      '<div class="row"><button type="button" id="pWifiSet" class="phevBtn">Wi-Fi settings</button></div>' +
-      '<label class="phevF">Diagnostic capture<input id="pCap" type="checkbox"></label>' +
+      '<label class="phevF">' + tr2("Parolă", "Password") + '<input id="pPsk" type="password" autocomplete="off"></label>' +
+      '<label class="phevF">' + tr2("Adresă (host)", "Host") + '<input id="pHost"></label><label class="phevF">Port<input id="pPort" inputmode="numeric"></label>' +
+      '<div class="row"><button type="button" id="pWifiSet" class="phevBtn">' + tr2("Setări Wi-Fi", "Wi-Fi settings") + '</button></div>' +
+      '<label class="phevF">' + tr2("Captură de diagnostic", "Diagnostic capture") + '<input id="pCap" type="checkbox"></label>' +
       '<p class="muted small" id="pWifiNote"></p><p class="muted small" id="pCapNote"></p></details></div>' +
 
       '<div class="card"><h3>' + L.registerSec + '</h3><p class="muted small">' + L.pairHelp + '</p>' +
@@ -169,7 +170,7 @@
       '<div class="card"><h3>' + L.bgReliability + '</h3><p class="muted small">' + L.bgReliabilityHelp + '</p>' +
       '<div class="row"><button type="button" id="pBattOpt" class="phevBtn">' + L.bgReliabilityBtn + '</button></div><p id="pBattMsg" class="small"></p></div>' +
 
-      '<div class="card"><div class="phevHead"><h3>Debug log</h3><div class="row" style="margin-top:0"><button type="button" id="pLogCopy" class="phevBtn">Copy log</button><button type="button" id="pLogClear" class="phevBtn">Clear</button></div></div>' +
+      '<div class="card"><div class="phevHead"><h3>' + tr2("Jurnal de depanare", "Debug log") + '</h3><div class="row" style="margin-top:0"><button type="button" id="pLogCopy" class="phevBtn">' + tr2("Copiază jurnalul", "Copy log") + '</button><button type="button" id="pLogClear" class="phevBtn">' + tr2("Șterge", "Clear") + '</button></div></div>' +
       '<p class="muted small" id="pLogNote"></p><pre id="pLog" class="log" style="max-height:320px;overflow:auto"></pre></div>' +
     '</section>';
 
@@ -189,27 +190,34 @@
     el.textContent += line + "\n";
     el.scrollTop = el.scrollHeight;
     if (el.textContent.length > 40000) el.textContent = el.textContent.slice(-30000);
-    if (N.logLine) {
+    logBytes += line.length + 1;
+    if (N.logLine && logBytes > 2000000) {  // size cap for the log file saved in Downloads
+      if (!logCapNoted) { logCapNoted = true; $("pLogNote").textContent = tr2("Limita fișierului jurnal (2 MB) atinsă în această sesiune; jurnalul de pe ecran continuă", "Log file size limit (2 MB) reached for this session; the on-screen log continues"); }
+    } else if (N.logLine) {
       var ok = N.logLine(line);
-      if (ok && !logFileNoted) { logFileNoted = true; $("pLogNote").textContent = "Also saving to Downloads/OutyDS-log-\u2026.log"; }
-      else if (!ok && !logFileFailNoted) { logFileFailNoted = true; $("pLogNote").textContent = "Could not write to Downloads (check storage permission)"; }
+      if (ok && !logFileNoted) { logFileNoted = true; $("pLogNote").textContent = tr2("Se salvează și în Downloads/OutyDS-log-\u2026.log", "Also saving to Downloads/OutyDS-log-\u2026.log"); }
+      else if (!ok && !logFileFailNoted) { logFileFailNoted = true; $("pLogNote").textContent = tr2("Nu s-a putut scrie în Downloads (verifică permisiunea de stocare)", "Could not write to Downloads (check storage permission)"); }
     }
   }
-  var logFileNoted = false, logFileFailNoted = false;
+  var logFileNoted = false, logFileFailNoted = false, logBytes = 0, logCapNoted = false;
   function describeFrame(dir, m) {
     var names = {}; names[E.T.PING_REQ] = "PING_REQ"; names[E.T.PING_RESP] = "PING_RESP"; names[E.T.SEND] = "SEND";
     names[E.T.RESP] = "RESP"; names[E.T.START24] = "START24"; names[E.T.START24_RESP] = "START24_RESP";
     names[E.T.START18] = "START18"; names[E.T.START18_RESP] = "START18_RESP"; names[E.T.START14] = "START14";
     names[E.T.START14_RESP] = "START14_RESP"; names[E.T.BAD_XOR] = "BAD_XOR"; names[E.T.CC] = "CC"; names[E.T.START_RESP] = "START_RESP";
     var tn = names[m.type] || ("0x" + m.type.toString(16));
-    return dir + " " + tn + " ack=" + m.ack + " reg=0x" + m.register.toString(16) + " data=" + E.hex(m.data, m.data.length);
+    var dd = m.data;
+    if (dir === "RX" && m.register === 0x15 && dd.length >= 20) {  // VIN broadcast: hide the serial part (VIN characters 12-17) in logs
+      dd = Array.prototype.slice.call(dd); for (var vi = 12; vi <= 17; vi++) dd[vi] = 0x2a;
+    }
+    return dir + " " + tn + " ack=" + m.ack + " reg=0x" + m.register.toString(16) + " data=" + E.hex(dd, dd.length);
   }
   $("pLogCopy").addEventListener("click", function () {
     var text = $("pLog").textContent;
     var ok = N.copyToClipboard ? N.copyToClipboard(text) : false;
-    $("pLogNote").textContent = ok ? "Copied " + text.length + " characters to the clipboard" : "Could not copy (clipboard unavailable)";
+    $("pLogNote").textContent = ok ? tr2("Copiate " + text.length + " caractere în clipboard", "Copied " + text.length + " characters to the clipboard") : tr2("Nu s-a putut copia (clipboard indisponibil)", "Could not copy (clipboard unavailable)");
   });
-  $("pLogClear").addEventListener("click", function () { $("pLog").textContent = ""; $("pLogNote").textContent = ""; });
+  $("pLogClear").addEventListener("click", function () { $("pLog").textContent = ""; $("pLogNote").textContent = tr2("Ecranul a fost golit; fișierul din Downloads nu a fost șters", "Screen cleared; the file in Downloads was not deleted"); });
   function setStatus(t) { $("pStatus").textContent = t; }
 
   // ---- engine + transport ----
@@ -224,14 +232,29 @@
     });
   }
   window.__phevRx = function (h) { log("RX raw " + h); if (eng) { try { eng.feed(E.unhex(h)); } catch (e) { log("rx error " + e); } } };
+  function nm(m) {
+    if (!ro || !m) return m;
+    var x = /^Android could not join "(.*)": prompt dismissed/.exec(m);
+    if (x) return "Android nu s-a putut conecta la „" + x[1] + "”: cererea a fost închisă, parola e greșită sau hotspot-ul doarme. Te poți conecta la mașină și din setările Wi-Fi, apoi apasă Conectează";
+    var T = {
+      "unsupported: join the car Wi-Fi in system settings first": "nesuportat: conectează-te mai întâi la Wi-Fi-ul mașinii din setările sistemului",
+      "permission needed: allow it, then try again": "permisiune necesară: acceab-o, apoi încearcă din nou",
+      "Location is off: Android requires it for joining Wi-Fi from an app. Turn Location on, or join the car in Wi-Fi settings and press Connect": "Locația e oprită: Android o cere pentru conectarea la Wi-Fi dintr-o aplicație. Pornește Locația sau conectează-te la mașină din setările Wi-Fi, apoi apasă Conectează",
+      "no Wi-Fi connection: join the car hotspot first": "fără conexiune Wi-Fi: conectează-te mai întâi la hotspot-ul mașinii",
+      "car closed the connection": "mașina a închis conexiunea"
+    };
+    if (T[m]) return T[m];
+    if (m.indexOf("write failed: ") === 0) return "scriere eșuată: " + m.slice(14);
+    return m;
+  }
   window.__phevEvent = function (name, msg) {
     log(name + (msg ? ": " + msg : ""));
     if (name === "join") {
-      if (msg === "ok") { $("pWifiNote").textContent = "Wi-Fi joined"; if (wantConn) openSocket(); }
-      else if (msg !== "lost") { $("pWifiNote").textContent = msg; setStatus(L.off); wantConn = false; }
+      if (msg === "ok") { $("pWifiNote").textContent = tr2("Wi-Fi conectat", "Wi-Fi joined"); if (wantConn) openSocket(); }
+      else if (msg !== "lost") { $("pWifiNote").textContent = nm(msg); setStatus(L.off); wantConn = false; }
     }
     if (name === "open") { setStatus(L.wait); connected = true; startTimers(); }
-    if (name === "closed") { connected = false; stopTimers(); setStatus(L.off + (msg ? " – " + msg : ""));
+    if (name === "closed") { connected = false; stopTimers(); setStatus(L.off + (msg ? " – " + nm(msg) : ""));
       if (wantConn && S.ssid && !joinTried && N.sdk() >= 29) { joinTried = true; joinWithPerm(); } }
   };
   function startTimers() {
@@ -244,10 +267,10 @@
   var joinTried = false, lastTry = 0;
   function joinWithPerm() {
     if (N.hasPerm("wifi")) return N.joinCar(S.ssid, S.psk);
-    N.askPerm("wifi"); $("pWifiNote").textContent = "Allow the permission prompt…";
+    N.askPerm("wifi"); $("pWifiNote").textContent = tr2("Acceptă cererea de permisiune…", "Allow the permission prompt…");
     var n = 0, w = setInterval(function () {
       if (N.hasPerm("wifi")) { clearInterval(w); N.joinCar(S.ssid, S.psk); }
-      else if (++n > 40) { clearInterval(w); $("pWifiNote").textContent = "Wi-Fi permission denied"; setStatus(L.off); }
+      else if (++n > 40) { clearInterval(w); $("pWifiNote").textContent = tr2("Permisiune Wi-Fi refuzată", "Wi-Fi permission denied"); setStatus(L.off); }
     }, 750);
   }
   function connectNow(manual) {
@@ -256,7 +279,7 @@
     lastTry = Date.now(); wantConn = true;
     if (N.wifiPresent()) openSocket();
     else if (S.ssid && N.sdk() >= 29) { joinTried = true; setStatus(L.conn); joinWithPerm(); }
-    else { setStatus(L.off + " – join the car Wi-Fi first"); wantConn = false; }
+    else { setStatus(L.off + tr2(" – conectează-te mai întâi la Wi-Fi-ul mașinii", " – join the car Wi-Fi first")); wantConn = false; }
   }
   function disconnect() { wantConn = false; try { N.cancelJoin(); } catch (e) { } N.close(); connected = false; stopTimers(); setStatus(L.off); }
 
@@ -427,8 +450,8 @@
     if (!plan) { N.cancelAlarm(); $("cPlan").textContent = L.planNone; return false; }
     var ok = N.setAlarm(plan.startAt, plan.minutes, plan.event.title || "");
     var when = new Date(plan.startAt);
-    $("cPlan").textContent = (plan.event.title || "(no title)") + " \u2192 " + L.heat + " " + plan.minutes + " " + L.min + " @ " + when.toLocaleString();
-    $("cNote").textContent = (N.canExact() ? "" : "Exact alarms are off: the alarm may be a few minutes late. ") + (ok ? "" : L.err + "alarm not set");
+    $("cPlan").textContent = (plan.event.title || tr2("(fără titlu)", "(no title)")) + " \u2192 " + L.heat + " " + plan.minutes + " " + L.min + " @ " + when.toLocaleString();
+    $("cNote").textContent = (N.canExact() ? "" : tr2("Alarmele exacte sunt oprite: alarma poate întârzia câteva minute. ", "Exact alarms are off: the alarm may be a few minutes late. ")) + (ok ? "" : L.err + tr2("alarmă nesetată", "alarm not set"));
     if (!N.canExact()) { try { N.openExactSettings(); } catch (e) { } }
     return true;
   }
@@ -464,7 +487,7 @@
     var as = JSON.parse(N.alarmState());
     if (S.auto && as.firedAt && Date.now() - as.firedAt < 20 * 60000) runJob(as.alarmMin || S.calMin);
     else if (as.firedAt) N.clearFired();
-    if (S.auto && as.alarmAt && as.alarmAt > Date.now()) { $("cPlan").textContent = "Alarm armed @ " + new Date(as.alarmAt).toLocaleString(); replanT = setInterval(function () { if (S.auto) replan(); }, 900000); }
+    if (S.auto && as.alarmAt && as.alarmAt > Date.now()) { $("cPlan").textContent = tr2("Alarmă armată @ ", "Alarm armed @ ") + new Date(as.alarmAt).toLocaleString(); replanT = setInterval(function () { if (S.auto) replan(); }, 900000); }
   } catch (e) { }
 
   // ---- OutyDS: commands from / status to the Settings > Car WiFi page (parent window) ----

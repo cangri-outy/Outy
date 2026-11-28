@@ -12,6 +12,8 @@
 # instance fields
 .field private volatile stopped:Z
 
+.field private wl:Landroid/os/PowerManager$WakeLock;
+
 
 # direct methods
 .method public constructor <init>()V
@@ -726,7 +728,20 @@
 
     const/4 v7, 0x1
 
+    invoke-direct {p0}, Lro/outyds/remote/PhevBackgroundService;->ro()Z
+
+    move-result v8
+
+    if-eqz v8, :chan_en
+
+    const-string v8, "Pre\u00eenc\u0103lzire programat\u0103"
+
+    goto :chan_go
+
+    :chan_en
     const-string v8, "Scheduled preheat"
+
+    :chan_go
 
     aput-object v8, v6, v7
 
@@ -1246,10 +1261,48 @@
     return v0
 .end method
 
+.method private grabLock()V
+    .locals 4
+
+    :try_start_0
+    const-string v0, "power"
+
+    invoke-virtual {p0, v0}, Lro/outyds/remote/PhevBackgroundService;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/os/PowerManager;
+
+    const/4 v1, 0x1
+
+    const-string v2, "OutyDS:phevjob"
+
+    invoke-virtual {v0, v1, v2}, Landroid/os/PowerManager;->newWakeLock(ILjava/lang/String;)Landroid/os/PowerManager$WakeLock;
+
+    move-result-object v0
+
+    const/4 v1, 0x0
+
+    invoke-virtual {v0, v1}, Landroid/os/PowerManager$WakeLock;->setReferenceCounted(Z)V
+
+    const-wide/32 v2, 0x133d60
+
+    invoke-virtual {v0, v2, v3}, Landroid/os/PowerManager$WakeLock;->acquire(J)V
+
+    iput-object v0, p0, Lro/outyds/remote/PhevBackgroundService;->wl:Landroid/os/PowerManager$WakeLock;
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    :catch_0
+    return-void
+.end method
+
 .method private runJob(ILjava/lang/String;)V
     .locals 10
 
     .prologue
+    invoke-direct {p0}, Lro/outyds/remote/PhevBackgroundService;->grabLock()V
+
     const/4 v1, 0x0
 
     .line 53
@@ -1586,6 +1639,25 @@
 
     iput-boolean v0, p0, Lro/outyds/remote/PhevBackgroundService;->stopped:Z
 
+    iget-object v0, p0, Lro/outyds/remote/PhevBackgroundService;->wl:Landroid/os/PowerManager$WakeLock;
+
+    if-eqz v0, :cond_nowl
+
+    :try_start_wl
+    invoke-virtual {v0}, Landroid/os/PowerManager$WakeLock;->isHeld()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_nowl
+
+    iget-object v0, p0, Lro/outyds/remote/PhevBackgroundService;->wl:Landroid/os/PowerManager$WakeLock;
+
+    invoke-virtual {v0}, Landroid/os/PowerManager$WakeLock;->release()V
+    :try_end_wl
+    .catch Ljava/lang/Exception; {:try_start_wl .. :try_end_wl} :catch_wl
+
+    :catch_wl
+    :cond_nowl
     invoke-super {p0}, Landroid/app/Service;->onDestroy()V
 
     return-void

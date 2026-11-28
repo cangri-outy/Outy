@@ -2566,6 +2566,16 @@
 
     move-result v2
 
+    if-lez v2, :cond_0
+
+    const/16 v3, 0x400
+
+    if-gt v2, v3, :cond_0
+
+    and-int/lit8 v3, v2, 0x1
+
+    if-nez v3, :cond_0
+
     div-int/lit8 v2, v2, 0x2
 
     new-array v2, v2, [B
@@ -2588,7 +2598,10 @@
 
     const/16 v4, 0x10
 
+    :try_start_hex
     invoke-static {v3, v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;I)I
+    :try_end_hex
+    .catch Ljava/lang/NumberFormatException; {:try_start_hex .. :try_end_hex} :catch_hex
 
     move-result v3
 
@@ -2624,6 +2637,13 @@
     const/4 v0, 0x1
 
     goto :goto_0
+
+    :catch_hex
+    move-exception v1
+
+    const/4 v0, 0x0
+
+    return v0
 .end method
 
 .method public setAlarm(JILjava/lang/String;)Z

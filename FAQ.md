@@ -95,6 +95,10 @@ Are battery readings real-time?
 
 Readings depend on the vehicle's communication state and when the data was received. They should not be treated as laboratory-grade battery measurements.
 
+Is the fuel consumption exact?
+
+No, it is an estimate. OutyDS calculates it from engine data (air flow, load) assuming petrol, so it can differ from the real figure. On cars with an aftermarket LPG system the estimate is not valid while running on LPG, and the car can switch between LPG and petrol at any time, which OutyDS cannot detect.
+
 5. Remote-control functions
 
 Can I operate the vehicle's heating and air conditioning?
@@ -169,7 +173,7 @@ No. Support is provided on a best-effort basis, without guaranteed response time
 
 What is the current version?
 
-The project files in the repository are version 1.96, and 1.96 has been published as a GitHub Release (v.1.96, `OutyDS_1.96.apk`). The Releases page always shows the current release.
+The project files in the repository are version 1.97. The Releases page always shows the current release and what it contains.
 
 8. Source code
 

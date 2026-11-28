@@ -236,7 +236,9 @@
     return-void
 
     :cond_0
-    filled-new-array {v0}, [Ljava/lang/String;
+    const-string v1, "android.permission.ACCESS_COARSE_LOCATION"
+
+    filled-new-array {v0, v1}, [Ljava/lang/String;
 
     move-result-object v0
 
@@ -2187,6 +2189,8 @@
 
     invoke-virtual {p1, v1}, Landroid/webkit/WebSettings;->setAllowFileAccess(Z)V
 
+    invoke-virtual {p1, v1}, Landroid/webkit/WebSettings;->setAllowContentAccess(Z)V
+
     const/4 v1, 0x1
 
     invoke-virtual {p1, v1}, Landroid/webkit/WebSettings;->setGeolocationEnabled(Z)V
@@ -2287,6 +2291,14 @@
     if-eqz v0, :cond_phev
 
     invoke-virtual {v0}, Lro/outyds/remote/PhevBridge;->close()V
+
+    sget-object v1, Lro/outyds/remote/PhevBridge;->instance:Lro/outyds/remote/PhevBridge;
+
+    if-ne v1, v0, :cond_phev
+
+    const/4 v1, 0x0
+
+    sput-object v1, Lro/outyds/remote/PhevBridge;->instance:Lro/outyds/remote/PhevBridge;
 
     :cond_phev
     iget-object v0, p0, Lro/outy/app/MainActivity;->web:Landroid/webkit/WebView;

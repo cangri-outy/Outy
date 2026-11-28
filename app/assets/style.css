@@ -421,7 +421,7 @@ body.light #engGlow{mix-blend-mode:multiply!important}
 #dash #d_carBox{padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:0}
 #dash #d_carIn{position:relative;flex:none;width:var(--cw,100px);height:var(--ch,36px)}
 #dash .ty{position:absolute;transform:translate(-50%,-50%);padding:.25em .55em;border-radius:.6em;background:var(--panel2);border:2px solid var(--regen);font-size:1.15em;font-weight:800;text-align:center;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
-#dash .ty small{display:block;font-size:.72em;color:var(--mut);font-weight:700}
+#dash .ty{cursor:pointer}#dash .ty small{display:block;font-size:.72em;color:var(--mut);font-weight:700}
 #dash .ty.bad{border-color:var(--warn);color:var(--warn)}
 #dash #d_info{gap:.5em}
 #dash #d_head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:.6em}

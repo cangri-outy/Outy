@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src https://api.github.com https://api.open-meteo.com; worker-src blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OutyDS</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,7 +12,7 @@
 <header class="top">
   <div class="brand"><span class="logo" aria-hidden="true"></span><span>OutyDS</span></div>
   <button id="connPill" class="pill" type="button"><span class="dot"></span><span id="connText" data-i18n="disconnected">Deconectat</span></button>
-  <div class="lang" role="group" aria-label="Language">
+  <div class="lang" role="group" aria-label="Limbă" data-i18n-aria="ariaLang">
     <button type="button" data-lang="ro">RO</button>
     <button type="button" data-lang="en">EN</button>
   </div>
@@ -148,6 +149,8 @@
         <div style="display:none"><span data-i18n="condSoh">Sănătate (BMU)</span><b id="cdSoh">--</b></div>
         <div><span data-i18n="condLast">Ultima măsurătoare</span><b id="cdLast">--</b></div>
         <div><span data-i18n="condCycles">Cicluri echivalente</span><b id="cdCyc">--</b></div>
+        <div><span data-i18n="condAcdc">Încărcat AC/DC (BMU, total)</span><b id="cdAcdc">--</b></div>
+        <div><span data-i18n="condDcdc">Încărcat DC/DC (BMU, total)</span><b id="cdDcdc">--</b></div>
       </div>
       <p class="muted small" data-i18n="condHow">Capacitatea se măsoară la o încărcare de la priză: Ah intrați în baterie împărțiți la creșterea SoC (minim 15 puncte). Fără o încărcare nu afișăm un număr măsurat.</p>
     </div>
@@ -341,7 +344,7 @@
   <!-- SETTINGS / LOG -->
   <!-- REMOTE (WiFi) -->
   <section class="screen" data-screen="remote">
-    <iframe id="remoteFrame" class="remoteFrame" src="remote.html" title="Remote"></iframe>
+    <iframe id="remoteFrame" class="remoteFrame" src="remote.html" title="Telecomandă" data-i18n-title="tabRemote"></iframe>
   </section>
 
   <section class="screen" data-screen="more">
@@ -365,7 +368,7 @@
       <div class="pgHead"><button type="button" class="ghost pgBack" data-i18n="setBack">‹ Setări</button><h2 data-i18n="setUpd">Actualizări</h2></div>
       <div class="card">
         <p><span class="muted small" data-i18n="updCurL">Versiune instalată</span>: <b id="updCur">—</b></p>
-        <label class="small muted" for="updRepo">GitHub repo (owner/repo)</label>
+        <label class="small muted" for="updRepo" data-i18n="updRepoL">Repo GitHub (owner/repo)</label>
         <input id="updRepo" type="text" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="owner/repo">
         <label class="small"><input id="updAuto" type="checkbox"> <span data-i18n="updAutoL">Verifică la pornire</span></label>
         <div class="row"><button type="button" id="updCheck" class="primary" data-i18n="updCheckL">Verifică acum</button></div>
@@ -403,6 +406,8 @@
       <div class="row"><button type="button" id="btnWifiObd" class="primary" data-i18n="wobdBtn">Conectare WiFi</button></div>
       <label class="check"><input type="checkbox" id="optAutoRec"> <span data-i18n="autoRec">Reconectare automată</span></label>
       <label class="field row"><span data-i18n="optKeep">Rămâne conectată în fundal (notificare + colectare cursă la 2 s)</span><input type="checkbox" id="optKeepAlive"></label>
+      <label class="field row"><span data-i18n="optKeepScr">Ecran aprins cât timp e conectată</span><input type="checkbox" id="optKeepScr"></label>
+      <label class="field row"><span data-i18n="optDimScr">Ecran întunecat (cu ecran aprins)</span><input type="checkbox" id="optDimScr"></label>
       <label class="field"><span data-i18n="speedSrc">Sursa vitezei</span><select id="optSpeedSrc"><option value="auto" data-i18n="spAuto">Automat (mașină + GPS)</option><option value="car" data-i18n="spCar">Doar mașina</option><option value="gps" data-i18n="spGps">Doar GPS</option></select></label>
     </div>
     </div>
@@ -493,6 +498,17 @@
     </div>
     <div class="setPage" id="pg_diag" hidden>
       <div class="pgHead"><button type="button" class="ghost pgBack" data-i18n="setBack">‹ Setări</button><h2 data-i18n="setDiag">Diagnoză</h2></div>
+    <div class="card" id="cnCard">
+      <h3 data-i18n="cnT">Conexiune OBD</h3>
+      <div><span data-i18n="cnLState">Stare</span><b id="cnState">--</b></div>
+      <div><span data-i18n="cnLUp">Timp conectat</span><b id="cnUp">--</b></div>
+      <div><span data-i18n="cnLRx">Ultimul mesaj de la adaptor</span><b id="cnRx">--</b></div>
+      <div><span data-i18n="cnLData">Ultimele date de la mașină</span><b id="cnData">--</b></div>
+      <div><span data-i18n="cnLDis">Deconectări (total)</span><b id="cnDis">--</b></div>
+      <div><span data-i18n="cnLRec">Reconectări (total)</span><b id="cnRec">--</b></div>
+      <div><span data-i18n="cnLErr">Ultimul eveniment de eroare</span><b id="cnErr">--</b></div>
+      <p class="muted small" id="cnVerdict"></p>
+    </div>
     <div class="card" id="dgCard">
       <h3 data-i18n="dgT">Diagnoză sisteme</h3>
       <p class="muted small" data-i18n="dgHint">Citește erorile de la toate modulele care răspund.</p>
@@ -536,6 +552,13 @@
       <div class="row"><button type="button" id="tmStart" data-i18n="tmStart">Pornește maparea</button></div>
       <p id="tmStatus" class="small"></p>
       <div id="tmWheels" class="hlist"></div>
+      <h4 class="grpH" data-i18n="tyIdT">Poziție după ID senzor</h4>
+      <p class="muted small" data-i18n="tyIdInfo">Opțional: introdu ID-ul senzorului (hex) pentru fiecare roată. Dacă ID-ul e găsit în datele TPMS, poziția se ia după el. Goală = maparea de mai sus.</p>
+      <div class="row"><label data-i18n="tmW_fl">Față stânga</label><input type="text" id="tyId_fl" autocomplete="off" spellcheck="false" maxlength="16"></div>
+      <div class="row"><label data-i18n="tmW_fr">Față dreapta</label><input type="text" id="tyId_fr" autocomplete="off" spellcheck="false" maxlength="16"></div>
+      <div class="row"><label data-i18n="tmW_rl">Spate stânga</label><input type="text" id="tyId_rl" autocomplete="off" spellcheck="false" maxlength="16"></div>
+      <div class="row"><label data-i18n="tmW_rr">Spate dreapta</label><input type="text" id="tyId_rr" autocomplete="off" spellcheck="false" maxlength="16"></div>
+      <p class="muted small"><span data-i18n="tyIdSeenL">ID-uri detectate:</span> <span id="tyIdSeen">--</span></p>
       <div class="dangerZone">
         <h4 class="grpH" data-i18n="gDanger2">⚠ Zonă periculoasă – suprascrie datele</h4>
         <div class="row"><button type="button" id="tmReset" class="danger" data-i18n="tmReset">Șterge maparea</button></div>
@@ -579,7 +602,7 @@
       <div class="row"><button type="button" id="logCopy" class="primary" data-i18n="diagCopy">Copiază</button><button type="button" id="logExport" data-i18n="diagExport">Exportă</button><button type="button" id="logClear" class="ghost warn" data-i18n="clearLog">Golește jurnalul</button></div>
       <p class="muted small" data-i18n="logAllHint">Copiază / Exportă includ tot jurnalul sesiunii (până la 5000 de linii: cursă + comenzi manuale), nu doar ultimele 200 afișate.</p>
     </div>
-    <p class="muted small about" data-i18n="about">OutyDS 1.96 — aplicație gratuită pentru Outlander PHEV (ani vizați: 2013–2018; verificată doar cu loguri de la o mașină din 2016). Software liber sub licență GNU GPL v3, fără nicio garanție; cod sursă: github.com/cangri-outy/Outy. Neoficial, neafiliat Mitsubishi Motors. Folosește-l pe propria răspundere — comenzile către mașină (climă, lumini, încărcare) și orice scriere sunt riscul tău. Copyright © autorii OutyDS. Acest program este software liber: îl poți redistribui și modifica conform GNU GPL v3 (gnu.org/licenses/gpl-3.0), fără nicio garanție; textul licenței și codul sursă (proiect Apktool/Smali, fără sursa Java/Kotlin originală) sunt în repo, iar la redistribuire trebuie păstrate aceste note. Conține cod portat din phev2mqtt (GPL-3.0). Formatele datelor provin din OBDb (CC BY-SA 4.0, adaptate/selectate). Weather data by Open-Meteo.com (CC BY 4.0).</p>
+    <p class="muted small about" data-i18n="about">OutyDS 1.97 — aplicație gratuită pentru Outlander PHEV (ani vizați: 2013–2018; verificată doar cu loguri de la o mașină din 2016). Software liber sub licență GNU GPL v3, fără nicio garanție; cod sursă: github.com/cangri-outy/Outy. Neoficial, neafiliat Mitsubishi Motors. Folosește-l pe propria răspundere — comenzile către mașină (climă, lumini, încărcare) și orice scriere sunt riscul tău. Copyright © autorii OutyDS. Acest program este software liber: îl poți redistribui și modifica conform GNU GPL v3 (gnu.org/licenses/gpl-3.0), fără nicio garanție; textul licenței și codul sursă (proiect Apktool/Smali, fără sursa Java/Kotlin originală) sunt în repo, iar la redistribuire trebuie păstrate aceste note. Conține cod portat din phev2mqtt (GPL-3.0). Formatele datelor provin din OBDb (CC BY-SA 4.0, adaptate/selectate). Weather data by Open-Meteo.com (CC BY 4.0).</p>
 
     </div>
   </section>
@@ -605,7 +628,7 @@
   <div id="d_pills" style="--c:var(--ev)"><span class="pill on" data-m="ev">EV</span><span class="pill" data-m="hyb">HIBRID</span><span class="pill" data-m="reg">RECUP.</span><span class="pill" data-m="gli">LIBER</span></div>
  </div>
  <div id="d_cR" class="col">
-  <div id="d_tiles" class="fcell"><h4><span data-i18n="dTrip"></span><button type="button" id="d_x" aria-label="close">✕</button></h4><div class="tl">
+  <div id="d_tiles" class="fcell"><h4><span data-i18n="dTrip"></span><button type="button" id="d_x" aria-label="Închide" data-i18n-aria="ariaClose">✕</button></h4><div class="tl">
    <div><b id="d_t1">--</b><span>min</span></div><div><b id="d_t2">--</b><span>km</span></div>
    <div><b id="d_t3">--</b><span>kWh/100 km</span></div><div><b id="d_t4">--</b><span>l/100 km</span></div></div></div>
   <div class="panel fcell" id="d_modes">
@@ -620,10 +643,10 @@
  <div id="d_info" class="col">
   <div id="d_head"><div id="d_warn">
   <div class="wi ok" title="12 V"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M7 8V5h3v3M14 8V5h3v3M8 13.5h3M9.5 12v3M14 13.5h3"/></svg></div>
-  <div class="wi ok" title="Celule"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 3V1.5h4V3M11 9l-1 3h4l-1 3"/></svg></div>
-  <div class="wi ok" title="Motor"><svg viewBox="0 0 24 24"><path d="M4 9h3l2-2h6l2 2h3v7h-3l-2 2H9l-2-2H4zM2 12v2M22 12v2"/></svg></div>
-  <div class="wi bad" title="Anvelope"><svg viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-5 14.2M12 3a8 8 0 0 1 5 14.2M12 8v5M12 16v.5M6 19h12"/></svg></div>
-  <div class="wi ok" title="Temp"><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/></svg></div></div>
+  <div class="wi ok" title="Celule" data-i18n-title="wiCells"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 3V1.5h4V3M11 9l-1 3h4l-1 3"/></svg></div>
+  <div class="wi ok" title="Motor" data-i18n-title="wiEngine"><svg viewBox="0 0 24 24"><path d="M4 9h3l2-2h6l2 2h3v7h-3l-2 2H9l-2-2H4zM2 12v2M22 12v2"/></svg></div>
+  <div class="wi bad" title="Anvelope" data-i18n-title="wiTyres"><svg viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-5 14.2M12 3a8 8 0 0 1 5 14.2M12 8v5M12 16v.5M6 19h12"/></svg></div>
+  <div class="wi ok" title="Temperaturi" data-i18n-title="wiTemp"><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/></svg></div></div>
 <div id="d_clock"><span><b id="d_dt">--</b></span><span><b id="d_tm">--</b></span></div></div>
   <div id="d_wxrow">
    <div class="panel fcell wx" id="d_wx"><svg id="d_wxI" viewBox="0 0 84 84"></svg><div class="tx"><b id="d_wxN">--</b><span class="tmp"><b id="d_wxT">--</b> <small data-i18n="dExt"></small></span><span class="hid" style="display:none"><b id="d_wxE"></b></span><span class="inn"><i data-i18n="dInt"></i> · <b id="d_wxIn">--</b></span></div></div>

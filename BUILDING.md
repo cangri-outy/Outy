@@ -7,8 +7,8 @@ An **Apktool project** (`app/`): `AndroidManifest.xml`, `apktool.yml`, decompile
 
 ## Project facts
 - Package name: `ro.outyds.app`
-- Project version: `versionName 1.96`, `versionCode 100` (`app/apktool.yml`)
-- Project version: **1.96** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases) (the `v.1.96` tag points at the commit that contains the source of the published APK). Release status is not repeated in this file so that it cannot become outdated.
+- Project version: `versionName 1.97`, `versionCode 101` (`app/apktool.yml`)
+- Project version: **1.97** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); each release tag points at the commit that contains that APK's source. Release status is not repeated in this file so that it cannot become outdated.
 
 ## Requirements
 Java 11+ and `curl`. `build.sh` downloads and checks the tools:
@@ -24,7 +24,7 @@ The script stops if a checksum does not match. It also stops if the version in `
 ```
 KS=/path/outyds.jks KS_ALIAS=outyds KS_PASS=... ./build.sh
 ```
-Output: `dist/OutyDS_<version>.apk` (e.g. `dist/OutyDS_1.96.apk`). The script also writes **`dist/SHA256SUMS`** locally (`sha256sum` of the APK). It is generated on your machine and is not stored in the repository.
+Output: `dist/OutyDS_<version>.apk` (e.g. `dist/OutyDS_1.97.apk`). The script also writes **`dist/SHA256SUMS`** locally (`sha256sum` of the APK). It is generated on your machine and is not stored in the repository.
 
 ## Release checksum
 When a release is published, attach `SHA256SUMS` to the **GitHub Release** next to the APK. The file refers to the APK by its file name, so the checksum is only valid if the APK keeps the name it had when the file was generated (rename before generating, or regenerate).
@@ -33,11 +33,11 @@ When a release is published, attach `SHA256SUMS` to the **GitHub Release** next 
 - **Never commit the keystore.**
 - Android only installs an update over an existing installation if the APK has the same package name and is signed with the **same original signing key**.
 - **A newly generated signing key cannot update an existing installation.** Users would have to uninstall first, which deletes the app's data.
-- The signing certificate of the published v.1.95 and v.1.96 APKs has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95 (and v.1.96). If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
+- The signing certificate of the published v.1.95, v.1.96 and v.1.97 APKs has SHA-256 `b78b45c953b03302d941797170215f6a9f45b1c46c5a923cc2c28de0a241c372` (checked 2026-11-24). An APK built with the maintainer's current key shows the same certificate, so it can update v.1.95 (and v.1.96). If that key is ever lost, no update can be installed over existing installations. The release-report workflow checks this fingerprint.
 - Builds are not bit-for-bit reproducible (signing adds timestamps).
 
 ## In-app updates
-OutyDS checks `https://api.github.com/repos/<owner>/<repo>/releases/latest` (Settings > Updates; default repository `cangri-outy/Outy`). To publish an update: bump `versionCode`/`versionName` in `app/apktool.yml` and `VERSION` in `app/assets/update.js`, build, sign with the same keystore, then create a GitHub Release tagged like `v.X.YY` with the signed `.apk` and `SHA256SUMS` attached. Public repositories only.
+OutyDS checks `https://api.github.com/repos/<owner>/<repo>/releases/latest` (Settings > Updates; default repository `cangri-outy/Outy`). To publish an update: bump `versionCode`/`versionName` in `app/apktool.yml` and `VERSION` in `app/assets/update.js`, build, sign with the same keystore, then create a GitHub Release tagged like `v.X.YY` with the signed `.apk` and `SHA256SUMS` attached. Public repositories only. Releases must therefore include a `SHA256SUMS` asset next to the APK. Before the installer is opened, the app checks the downloaded APK: its SHA-256 against `SHA256SUMS`, same package name, higher `versionCode` and the same signing certificate as the installed app (the file is downloaded to the app's private folder and deleted if the check fails). Because of the certificate check, updates must be signed with the same keystore as the installed version.
 
 ## Notes
 - Internal storage keys stay `outy.*` for compatibility with existing exports.
