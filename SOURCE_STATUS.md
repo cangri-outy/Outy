@@ -13,12 +13,12 @@ These files are minified and have no readable original in this repository: `app/
 
 ## Other limits
 - Built APKs are not bit-for-bit reproducible (signing adds timestamps). Use `SHA256SUMS` from the release.
-- The 1.96 changes (WiFi OBD adapter, new tyre-pressure decoding, charge statistics, regrouped pages) were tested only in a browser mock. Logs from the maintainer's car were used to analyse tyre pressure and connection problems, but no real-car or real-adapter verification of these changes is documented. Other model years are untested.
+- The 1.96 changes (WiFi OBD adapter, new tyre-pressure decoding, charge statistics, regrouped pages) were tested only in a browser mock. Logs from the maintainer's car were used to analyse tyre pressure and connection problems, but no real-car or real-adapter verification of these changes is documented. The 1.97 changes were checked with unit tests, a browser mock and a simulated adapter; the native (smali) changes were only assembled, not run on Android, and the batched adapter set-up was not tried on a real adapter. Other model years are untested.
 - WiFi OBD dongle, tyre-pressure (TPMS) and the Remote tab depend on the car/adapter and may not work on every vehicle.
 
 ## Unresolved GPL question
 Whether this repository satisfies the GPL-3.0 Corresponding Source requirements (preferred form for making modifications, given the missing Java/Kotlin source and the minified JavaScript) is **unresolved**. It has not been legally established.
 
-Tag status (checked 2026-11-25 through the GitHub API): the tag `v.1.95` points to commit `f50b348`, whose tree contains only `README.md` and `readme.md`. The published `OutyDS_1.95.apk` therefore has **no corresponding application source at its tag** (open GPL source-availability gap for v.1.95, not fixable without changing that tag or publishing matching source). The tag `v.1.96` points to commit `5b24a27`, which contains the Apktool project, build script and licence of the published `OutyDS_1.96.apk`.
+Tag status (checked 2026-11-25 through the GitHub API): the tag `v.1.95` points to commit `f50b348`, whose tree contains only `README.md` and `readme.md`. The published `OutyDS_1.95.apk` therefore has **no corresponding application source at its tag** (open GPL source-availability gap for v.1.95, not fixable without changing that tag or publishing matching source). The tag `v.1.96` points to commit `5b24a27`, which contains the Apktool project, build script and licence of the published `OutyDS_1.96.apk`. The tag `v.1.97` points to commit `d56f80a`, which contains the Apktool project and build script of `OutyDS_1.97.apk`.
 
 Project version: **1.97** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); each release tag points at the commit that contains that APK's source. Release status is not repeated in this file so that it cannot become outdated.

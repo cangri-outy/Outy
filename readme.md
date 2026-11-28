@@ -49,7 +49,7 @@ For more information, see the [Automatic Updates Wiki](https://github.com/cangri
 
 - OutyDS is intended for the Mitsubishi Outlander PHEV. The model years it is aimed at are **2013–2018** (the maintainer's target, also shown on the About screen). This range has **not** been verified on every model year.
 - **What has been checked on a real vehicle:** logs from **one 2016 Outlander PHEV**, read with a Bluetooth OBD adapter, were used to analyse battery, tyre-pressure and connection behaviour. Nothing else has been tested on a real vehicle by the maintainer.
-- **Not verified on a real vehicle:** WiFi OBD adapter connection, the Remote tab (climate, lights, charge timer, scheduled pre-heating), the 1.96 tyre-pressure decoding and the 1.96 trip and charge statistics. An earlier report said interactive heating/cooling commands in the Remote tab did not work; that has not been resolved or re-tested.
+- **Not verified on a real vehicle:** WiFi OBD adapter connection, the Remote tab (climate, lights, charge timer, scheduled pre-heating), the 1.96 tyre-pressure decoding, the 1.96 trip and charge statistics, the 1.97 tyre position by sensor ID, the 1.97 batched adapter set-up and the native (smali) changes of 1.97. An earlier report said interactive heating/cooling commands in the Remote tab did not work; that has not been resolved or re-tested.
 - **Experimental:** signals for 2021 and newer models (Settings, off by default).
 - No claim is made that every function works on every model or phone.
 

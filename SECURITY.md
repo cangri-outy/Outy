@@ -29,6 +29,7 @@ These points describe the **project files and the published v.1.97**. The older 
 - From 1.97, `index.html` and `remote.html` carry a Content-Security-Policy (scripts only from the bundled files, network only to api.github.com and api.open-meteo.com). Checked in desktop Chromium, not in Android WebView.
 - The WebView navigates only within the bundled pages, and the native bridge only opens `https://` links and only downloads updates from `https://github.com/`.
 - Messages between the app's pages are checked for the expected source frame.
+- From 1.97 the native bridge checks every text the page writes to the adapter (length, characters, adapter-programming commands, diagnostic write and session services; the clear-fault commands only shortly after the page armed them). This is a filter in the app, not a security boundary against code that already runs in the WebView. Not run on Android; assembled only.
 - Some dynamic values shown in the interface are escaped. **No blanket guarantee is made** that every dynamic value in every code path is escaped.
 
 ## Known limitations
