@@ -6,7 +6,7 @@ OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations
 Security reports are handled on a **best-effort** basis. There is **no guaranteed response time** and **no promise that every report will receive a fix**.
 
 - Please do **not** post vulnerability details in a public issue.
-- GitHub's private vulnerability reporting was **not enabled** when last checked (2026-11-25). If the *Security* tab offers "Report a vulnerability", use it. Otherwise open a public issue that says only "security contact please", with no details, and the maintainer may arrange a private channel.
+- GitHub's private vulnerability reporting was **not enabled** when last checked (2026-11-28). If the *Security* tab offers "Report a vulnerability", use it. Otherwise open a public issue that says only "security contact please", with no details, and the maintainer may arrange a private channel.
 - Useful details: OutyDS version, Android version, steps to reproduce and impact.
 
 ## Supported versions

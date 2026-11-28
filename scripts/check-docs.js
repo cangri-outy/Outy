@@ -47,5 +47,71 @@ for (const f of docs) {
     if (!fs.existsSync(path.join(root, m[1]))) err(f + " links to missing file " + m[1]);
   }
 }
+// 7. source-availability wording: v.1.95 has no application source at its tag, so no document may say
+//    that every / each release tag contains the source of its APK.
+const sourceClaim = /(every|each) (release )?tag[^.]{0,80}(contains?|points at)[^.]{0,80}source/i;
+for (const f of docs) {
+  if (f === "CHANGELOG.md") continue;
+  rd(f).split("\n").forEach((l, i) => {
+    if (sourceClaim.test(l) && !/v\.1\.95/.test(l)) err(f + ":" + (i + 1) + " generic claim that release tags contain the APK source (not true for v.1.95)");
+  });
+}
+
+// 8. the CHANGELOG marks a release as published with its tag; SOURCE_STATUS.md must then list that tag
+const published = [...rd("CHANGELOG.md").matchAll(/^## [\d.]+ \(published as (v\.[\d.]+)/gm)].map((m) => m[1]);
+for (const t of published) if (!rd("SOURCE_STATUS.md").includes("`" + t + "`")) err("SOURCE_STATUS.md does not list the tag " + t + " that CHANGELOG.md marks as published");
+const tagDate = rd("SOURCE_STATUS.md").match(/Tag status \(checked (\d{4}-\d\d-\d\d)/);
+if (!tagDate) err("SOURCE_STATUS.md has no 'Tag status (checked YYYY-MM-DD' line");
+else if (new Date(tagDate[1] + "T00:00:00Z") > new Date()) err("SOURCE_STATUS.md tag-status date " + tagDate[1] + " is in the future");
+
+// 9. version statements in the documents must equal the project version
+for (const f of docs) {
+  if (f === "CHANGELOG.md") continue;
+  rd(f).split("\n").forEach((l, i) => {
+    for (const m of l.matchAll(/(?:Project version: \*\*|(?:repository|project) files (?:in the repository )?are version |versionName )`?(\d+(?:\.\d+)*)/g)) {
+      if (m[1] !== ver) err(f + ":" + (i + 1) + " states version " + m[1] + " but app/apktool.yml has " + ver);
+    }
+  });
+}
+
+// 10. release asset naming must agree between build.sh, BUILDING.md, the release report and the updater
+if (!rd("build.sh").includes('OutyDS_${V1}.apk')) err("build.sh no longer names the output OutyDS_<version>.apk");
+for (const f of ["build.sh", "BUILDING.md", "app/assets/update.js", ".github/workflows/release-report.yml"]) {
+  if (!rd(f).includes("SHA256SUMS")) err(f + " does not mention the SHA256SUMS release asset");
+}
+for (const m of rd("BUILDING.md").matchAll(/dist\/OutyDS_([\d.]+)\.apk/g)) if (m[1] !== ver) err("BUILDING.md example APK name has version " + m[1] + " but the project is " + ver);
+
+// 11. release tags are written v.X.YY in the documents (not vX.YY)
+for (const f of docs) {
+  if (f === "CHANGELOG.md") continue;
+  rd(f).split("\n").forEach((l, i) => { if (/\bv\d+\.\d+/.test(l.replace(/https?:\/\/\S+/g, ""))) err(f + ":" + (i + 1) + " tag written as vX.YY; the project's tags are v.X.YY"); });
+}
+
+// 12. files referenced in backticks must exist: paths containing "/" (relative to the repository root, app/ or
+//     .github/workflows) and documentation file names (*.md) outside lines that talk about tags
+const exists = (r) => [".", "app", "app/assets", ".github/workflows"].some((b) => fs.existsSync(path.join(root, b, r)));
+for (const f of docs) {
+  if (f === "CHANGELOG.md") continue; // history
+  rd(f).split("\n").forEach((l, i) => {
+    for (const m of l.matchAll(/`([A-Za-z0-9_.\/-]+)`/g)) {
+      const ref = m[1];
+      const isPath = ref.includes("/") && /^(app|scripts|tests|data|\.github)\//.test(ref);
+      const isDoc = /^[A-Z][A-Z_]*\.md$/.test(ref) && !/tag/i.test(l);
+      if ((isPath || isDoc) && !exists(ref)) err(f + ":" + (i + 1) + " mentions `" + ref + "` which does not exist in the repository");
+    }
+  });
+}
+
+// 13. compatibility claim: model-year range must be the same everywhere it is stated
+const yearSrc = { "readme.md": rd("readme.md"), "FAQ.md": rd("FAQ.md"), "i18n.js (About)": (i18n.match(/about:\[[^\]]*\]/) || [""])[0] };
+for (const [f, t] of Object.entries(yearSrc)) {
+  for (const m of t.matchAll(/(20\d\d)(?:–|\\u2013|-)(20\d\d)/g)) if (m[1] !== "2013" || m[2] !== "2018") err(f + " states model years " + m[0] + "; the targeted range is 2013–2018");
+}
+
+// 14. naming: OutyDS is the application, Outy the repository
+for (const f of docs) {
+  rd(f).split("\n").forEach((l, i) => { if (/OutyDS (repository|repo)\b|\bOuty (app|application)\b/i.test(l)) err(f + ":" + (i + 1) + " naming: use 'OutyDS' for the application and 'Outy' for the repository"); });
+}
+
 if (errors) { console.log(errors + " problem(s)"); process.exit(1); }
 console.log("docs/text checks passed (version " + ver + ", " + Object.keys(table).length + " translations)");

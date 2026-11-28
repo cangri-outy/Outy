@@ -57,7 +57,7 @@ Only download APK files from the official project repository.
 
 How does OutyDS communicate with the car?
 
-The local remote-control connection uses the vehicle's WiFi system. Your phone needs to connect to the vehicle's WiFi network when using functions that communicate directly with the car.
+Vehicle data (battery, engine, tyre pressure, fault codes) is read through a Bluetooth or WiFi OBD-II adapter plugged into the car. The local remote-control connection (Remote tab) uses the vehicle's own WiFi system. Your phone needs to connect to the vehicle's WiFi network when using functions that communicate directly with the car.
 
 The car's WiFi says "No internet". Is that normal?
 
@@ -161,7 +161,7 @@ https://github.com/cangri-outy/Outy/releases/latest
 
 Will I lose my settings when updating?
 
-Back up any important app data before updating. Whether settings are preserved depends on the update and installation method.
+Install the update over the existing installation (same package name and signing key); Android then keeps the app's data. Uninstalling the app first deletes its data, including settings and history. Back up any important exported files before updating.
 
 Where can I get help?
 

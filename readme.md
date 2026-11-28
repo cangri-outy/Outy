@@ -68,7 +68,7 @@ OutyDS is free and open-source software distributed under GNU GPL-3.0. Donations
 - **What the repository contains:** an [Apktool](https://apktool.org) project in `app/`: `AndroidManifest.xml`, `apktool.yml`, decompiled **Smali** files (`app/smali/`), the WebView application files (`app/assets/`) and Android resources (`app/res/`), plus `build.sh`. It does **not** contain an original Java/Kotlin source tree, and some JavaScript files are minified. Details: [SOURCE_STATUS.md](SOURCE_STATUS.md).
 - **GPL Corresponding Source:** whether this repository fully satisfies the GPL Corresponding Source requirements is an **unresolved question**; it has not been legally established.
 - **Third-party components:** [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). **Build instructions:** [BUILDING.md](BUILDING.md).
-- Project version: **1.97** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); each release tag points at the commit that contains that APK's source. Release status is not repeated in this file so that it cannot become outdated.
+- Project version: **1.97** (`app/apktool.yml`). The current release is the one shown on the [Releases page](https://github.com/cangri-outy/Outy/releases); the tags `v.1.96` and `v.1.97` point at commits that contain the Apktool project of the corresponding APK (checked 2026-11-28), but the tag `v.1.95` does **not** contain the source of its APK (documented source-availability gap, see [SOURCE_STATUS.md](SOURCE_STATUS.md)). Release status is not otherwise repeated in this file so that it cannot become outdated.
 
 ## ❤️ Donations and support
 
